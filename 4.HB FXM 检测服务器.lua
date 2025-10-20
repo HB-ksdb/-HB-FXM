@@ -33,7 +33,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E5%B
 -- =  =
 elseif game.PlaceId == 3623096087 then-- 力量传奇
     YIJIAOBEN = "YIJIAOBEN"
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87.txt",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
 -- =  =
 -- ================  ================
 -- =  =
