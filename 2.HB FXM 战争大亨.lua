@@ -1,3 +1,4 @@
+addRainbowTitleToLocalPlayer(LP, "HBFXM战争大亨")
 -- ================ 1.执行UI加载器…… ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
@@ -46,13 +47,13 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://96291371536118"-- = 背景图ID =
+        Background = "rbxassetid://132816098756041"-- = 背景图ID =
     })
     
 -- ================ 3.窗口显示 ================
         Window:EditOpenButton({
             Title = " HB FXM脚本",
-            Icon = "sword",
+            Icon = "rbxassetid://132816098756041",
             CornerRadius = UDim.new(0, 16),
             StrokeThickness = 2,
             Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),

@@ -18,13 +18,13 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://96291371536118"
+        Background = "rbxassetid://132816098756041"
     })
     
 
         Window:EditOpenButton({
             Title = " HB FXM脚本",
-            Icon = "sword",
+            Icon = "rbxassetid://132816098756041",
             CornerRadius = UDim.new(0, 16),
             StrokeThickness = 2,
             Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),

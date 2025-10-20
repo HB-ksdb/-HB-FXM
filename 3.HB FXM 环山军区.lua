@@ -17,13 +17,13 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://4155801252"
+        Background = "rbxassetid://132816098756041"
     })
     
 
 Window:EditOpenButton({
     Title = "越 HB脚本环山军区",
-    Icon = "monitor",
+    Icon = "rbxassetid://132816098756041",
     CornerRadius = UDim.new(0, 16),
     StrokeThickness = 2,
     Color = openButtonColor,
