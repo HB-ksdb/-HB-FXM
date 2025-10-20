@@ -269,7 +269,7 @@ Button = TabHandles.Q:Button({
     Desc = "",
     Locked = false,
     Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E4%B8%BB%E8%84%9A%E6%9C%AC.txt",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/%E4%B8%BBHB%20FXM%20.txt",true))()
 WindUI:Notify({
     Title = "通知",
     Content = "加载成功",
