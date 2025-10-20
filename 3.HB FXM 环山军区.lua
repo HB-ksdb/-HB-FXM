@@ -1,4 +1,26 @@
+-- ================  ================
+function Antihook()
+    return "Hook"
+end
 
+hookfunction(Antihook, function()
+    return "No Hook"
+end)
+
+hookfunction(game.HttpGet, print)
+
+if not isfunctionhooked(Antihook) or not isfunctionhooked(game.HttpGet) then
+    game:shutdown("别搞我")
+    while true do end
+end
+
+restorefunction(game.HttpGet)
+
+if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhooked(tostring) then
+    game:shutdown("666")
+    while true do end
+end
+-- ================  ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 local Window = WindUI:CreateWindow({
@@ -44,6 +66,13 @@ Window:Tag({
         Title = "环山军区",
         Color = Color3.fromHex("#000000")
     })
+
+WindUI:Notify({
+    Title = "HB FXM ",
+    Content = "防抓包也开启",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
+})
 
 local Tab = Window:Tab({
     Title = "通知",

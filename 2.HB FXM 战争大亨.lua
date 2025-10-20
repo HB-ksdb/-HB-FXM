@@ -1,4 +1,26 @@
+-- ================  ================
+function Antihook()
+    return "Hook"
+end
 
+hookfunction(Antihook, function()
+    return "No Hook"
+end)
+
+hookfunction(game.HttpGet, print)
+
+if not isfunctionhooked(Antihook) or not isfunctionhooked(game.HttpGet) then
+    game:shutdown("别搞我")
+    while true do end
+end
+
+restorefunction(game.HttpGet)
+
+if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhooked(tostring) then
+    game:shutdown("666")
+    while true do end
+end
+-- ================  ================
 -- ================ 1.执行UI加载器…… ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
@@ -67,7 +89,12 @@ Window:Tag({
     Color = Color3.fromHex("#30ff6a")
 })
 
-
+WindUI:Notify({
+    Title = "HB FXM ",
+    Content = "防抓包也开启",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
+})
 -- ================ 标签二 ================
 Window:Tag({
         Title = " 越 HB版", -- 标签汉化
@@ -78,174 +105,7 @@ Window:Tag({
         Color = Color3.fromHex("#000000")
     })
 -- ================  ================
-game:GetService("StarterGui"):SetCore("SendNotification",{ 
-    Title = "HB FXM 保护中...", 
-    Text = "请避免使用链接抓包脚本", 
-    Duration = 1
-})
 
-spawn(function()
-    while true do
-        wait(1.5) 
-        
-        pcall(function()
-            getgenv().rconsoletitle = nil
-            getgenv().rconsoleprint = nil
-            getgenv().rconsolewarn = nil
-            getgenv().rconsoleinfo = nil
-            getgenv().rconsolerr = nil
-            getgenv().clonefunction = function(...) while true do end return end
-            
-            for _, child in pairs(game.CoreGui:GetChildren()) do
-                if string.lower(child.Name) == 'devconsolemaster' then
-                    game.Players.LocalPlayer:Kick("bro don't do that")
-                    game:Shutdown()
-                    while true do end
-                    child:Destroy()
-                end
-            end
-        end)
-    end
-end)
-
-spawn(function()
-    pcall(function()
-    hookfunction(print, function(...)
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-        return
-    end)
-    hookfunction(warn, function(...)
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-        return
-    end)
-    hookfunction(error, function(...)
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-        return
-    end)
-
-    
-hookfunction(print, function(a)
-    if string.find(a:lower(), "http") then
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-    end
-end)
-hookfunction(warn, function(a)
-    if string.find(a:lower(), "http") then
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-    end
-end)
-hookfunction(error, function(a)
-    if string.find(a:lower(), "http") then
-        game.Players.LocalPlayer:Kick("bro don't do that")
-        game:Shutdown()
-        while true do end
-    end
-end)
-        
-     local oldwrite
-        oldwrite = hookfunction(writefile, function(file, content)
-            if(string.find(string.lower(content), 'http') or string.find(string.lower(content), '//') or string.find(string.lower(content), 'https://discord.com/api/webhooks/')) then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return
-            end
-        
-            return oldwrite(file, content)
-        end)
-        local oldappend
-        oldappend = hookfunction(appendfile, function(file, content)
-            if(string.find(string.lower(content), 'http') or string.find(string.lower(content), '//') or string.find(string.lower(content), 'https://discord.com/api/webhooks/')) then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return
-            end
-            return oldappend(file, content)
-        end)
-        game.DescendantAdded:Connect(function(c)
-            if c and c:IsA('TextLabel') or c:IsA('TextButton') or c:IsA('Message') then
-                if string.find(string.lower(c.Text), 'http') then
-                    game.Players.LocalPlayer:Kick("bro don't do that")
-                    game:Shutdown()
-                    while true do end
-                    c:Destroy()
-                end
-            end
-        end)
-        getgenv().rconsoletitle = nil
-        getgenv().rconsoleprint = nil
-        getgenv().rconsolewarn = nil
-        getgenv().rconsoleinfo = nil
-        getgenv().rconsolerr = nil
-        getgenv().clonefunction = function(...) while true do end return end
-        game.CoreGui.ChildAdded:Connect(function(c)
-            if(string.lower(c.Name) == 'devconsolemaster') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                c:Destroy()
-            end
-        end)
-        local oldNamecall
-        oldNamecall = hookmetamethod(game, '__namecall', newcclosure(function(self, ...)
-            local method = getnamecallmethod()
-            if(string.lower(method) == 'rconsoleprint') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return 
-            end
-            if(string.lower(method) == 'rconsoleinfo') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return 
-            end
-            if(string.lower(method) == 'rconsolewarn') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return 
-            end
-            if(string.lower(method) == 'rconsoleerr') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return
-            end
-            if(string.lower(method) == 'warn') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return
-            end
-            if(string.lower(method) == 'error') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return
-            end
-            if(string.lower(method) == 'rendernametag') then
-                game.Players.LocalPlayer:Kick("bro don't do that")
-                game:Shutdown()
-                while true do end
-                return 
-            end
-            return oldNamecall(self, ...)
-        end))
-        end)
-    end)
 -- ================ ？？？ ================
 local Tabs = {
     Main = Window:Section({ Title = "通用", Opened = true }),
