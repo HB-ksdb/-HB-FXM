@@ -3,7 +3,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 local Window = WindUI:CreateWindow({
         Title = "越 HB<font color='#00FF00'>1.5</font>",
-        Icon = "rbxassetid://81944629903864",
+        Icon = "rbxassetid://4483362748",
         IconTransparency = 0.5,
         IconThemed = true,
         Author = "作者:HB",
@@ -18,13 +18,13 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://132816098756041"
+        Background = "rbxassetid://96291371536118"
     })
     
 
 Window:EditOpenButton({
     Title = "越 HB脚本环山军区",
-    Icon = "rbxassetid://132816098756041",
+    Icon = "sword",
     CornerRadius = UDim.new(0, 16),
     StrokeThickness = 2,
     Color = openButtonColor,

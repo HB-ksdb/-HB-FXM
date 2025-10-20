@@ -32,7 +32,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 -- ================ 2.Ul背景…… ================
 local Window = WindUI:CreateWindow({
         Title = " 越 HB<font color='#00FF00'>战争大亨</font>",
-        Icon = "rbxassetid://1279310654146347060",-- =  =背景右上角的图片
+        Icon = "rbxassetid://4483362748",-- =  =背景右上角的图片
         IconTransparency = 0.5,
         IconThemed = true,
         Author = "作者: HB",-- = 名字 =
@@ -47,13 +47,13 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://132816098756041"-- = 背景图ID =
+        Background = "rbxassetid://96291371536118"-- = 背景图ID =
     })
     
 -- ================ 3.窗口显示 ================
         Window:EditOpenButton({
             Title = " HB FXM脚本",
-            Icon = "rbxassetid://132816098756041",
+            Icon = "sword1",
             CornerRadius = UDim.new(0, 16),
             StrokeThickness = 2,
             Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
