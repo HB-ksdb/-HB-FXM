@@ -9,7 +9,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/
 -- =  =
 elseif game.PlaceId == 189707 then--自然灾害 
     YIJIAOBEN = "YIJIAOBEN"
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E8%B6%8A%20HB%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E9%80%89%E6%8B%A9.lua",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))()
 -- =  =
 -- ================  ================
 -- =  =
@@ -69,7 +69,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E8%B
 -- =  =
 else--通用
     YIJIAOBEN = "YIJIAOBEN"
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E4%B8%BB%E8%84%9A%E6%9C%AC.txt",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/%E4%B8%BBHB%20FXM%20.txt",true))()
 end
 -- =  =
 -- ================ 顶 ================
