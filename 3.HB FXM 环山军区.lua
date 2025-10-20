@@ -1,3 +1,4 @@
+addRainbowTitleToLocalPlayer(LP, "HBFXM 环山军区")
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 local Window = WindUI:CreateWindow({
