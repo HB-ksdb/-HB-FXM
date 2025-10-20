@@ -1,4 +1,4 @@
-addRainbowTitleToLocalPlayer(LP, "HBFXM战争大亨")
+
 -- ================ 1.执行UI加载器…… ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 

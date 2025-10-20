@@ -57,7 +57,6 @@ end
 
 -- ================ 支持服务器 ================
 -- ================ 1.执行UI加载器…… ================
-addRainbowTitleToLocalPlayer(LP, "HBFXM")
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 
