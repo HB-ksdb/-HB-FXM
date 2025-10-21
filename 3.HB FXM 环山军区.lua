@@ -21,18 +21,45 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
     while true do end
 end
 -- ================  ================
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local Version = "1.6.41"
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
 
+-- ================ 1.5.弹窗窗口显示 ================
+        WindUI:Popup({
+            Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
+            Icon = "info",
+            Content = "欢迎使用HB FXM脚本",
+            Buttons = {
+                {
+                    Title = "取消",
+                    Callback = function() end,
+                    Variant = "Tertiary",
+                },
+                {
+                    Title = "执行",
+                    Icon = "arrow-right",
+                    Callback = function() 
+                        DDZX = true 
+                    end,
+                    Variant = "Primary",
+                }   
+            }
+        })
+
+        repeat
+            wait()
+        until DDZX       
+
+-- ================ 2.Ul背景…… ================
 local Window = WindUI:CreateWindow({
         Title = "越 HB<font color='#00FF00'>1.5</font>",
-        Icon = "rbxassetid://4483362748",
+        Icon = "rbxassetid://4483362748",-- =  =背景右上角的图片
         IconTransparency = 0.5,
         IconThemed = true,
-        Author = "作者:HB",
+        Author = "作者:HB",-- = 名字 =
         Folder = "CloudHub",
-        Size = UDim2.fromOffset(400, 300),
+        Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
-        Theme = "Light",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -40,18 +67,17 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://96291371536118"
     })
     
-
-Window:EditOpenButton({
-    Title = "越 HB脚本环山军区",
-    Icon = "sword",
-    CornerRadius = UDim.new(0, 16),
-    StrokeThickness = 2,
-    Color = openButtonColor,
-    Draggable = true,
-})
+-- ================ 3.窗口显示 ================
+        Window:EditOpenButton({
+            Title = " HB FXM脚本",
+            Icon = "sword",
+            CornerRadius = UDim.new(0, 16),
+            StrokeThickness = 2,
+            Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
+            Draggable = true
+        })
 
 Window:Tag({
     Title = "v2.0越 HB",

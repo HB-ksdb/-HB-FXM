@@ -80,8 +80,8 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
     while true do end
 end
 -- ================  ================
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-
+local Version = "1.6.41"
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
 
 -- ================ 1.5.弹窗窗口显示 ================
         WindUI:Popup({
@@ -119,7 +119,6 @@ local Window = WindUI:CreateWindow({
         Folder = "CloudHub",
         Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
-        Theme = "Light",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -127,7 +126,6 @@ local Window = WindUI:CreateWindow({
         },
         SideBarWidth = 200,
         ScrollBarEnabled = true,
-        Background = "rbxassetid://96291371536118"-- = 背景图ID =
     })
     
 -- ================ 3.窗口显示 ================
@@ -143,18 +141,18 @@ local Window = WindUI:CreateWindow({
 -- ================ 标题 ================
 
 Window:Tag({
-    Title = "v2.0越 HB",
+    Title = "v2.0HB FXM",
     Color = Color3.fromHex("#30ff6a")
 })
 
 
 
 Window:Tag({
-        Title = "越 HB版", -- 标签汉化
+        Title = " HB FXM", -- 标签汉化
         Color = Color3.fromHex("#315dff")
     })
     local TimeTag = Window:Tag({
-        Title = "正在更新",
+        Title = " ",
         Color = Color3.fromHex("#000000")
     })
     
