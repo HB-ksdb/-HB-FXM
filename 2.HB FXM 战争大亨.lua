@@ -1400,78 +1400,13 @@ end
 
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 -- ================  ================
-
-local bulletTrackingEnabled = true  
-local oldHook = nil
               
-Toggle = TabHandles.R:Toggle({
-    Title = "子追",
-    Desc = "",
+Button = TabHandles.R:Button({
+    Title = "子追脚本范围",
+    Desc = "点击加载",
     Locked = false,
     Callback = function(t)
-    bulletTrackingEnabled = t
-
-local function setupBulletTracking()
-    local Workspace = game:GetService("Workspace")
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-    local Camera = Workspace.CurrentCamera
-    
-    local function getClosestHead()
-        if not LocalPlayer.Character then return nil end
-        if not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return nil end
-        
-        local closestHead = nil
-        local closestDistance = math.huge
-        
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and player.Character then
-                local character = player.Character
-                local root = character:FindFirstChild("HumanoidRootPart")
-                local head = character:FindFirstChild("Head")
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-                local forcefield = character:FindFirstChild("ForceField")
-                
-                if root and head and humanoid and not forcefield and humanoid.Health > 0 then
-                    local distance = (root.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                    if distance < closestDistance then
-                        closestHead = head
-                        closestDistance = distance
-                    end
-                end
-            end
-        end
-        
-        return closestHead
-    end
-    
-    if not oldHook then
-        oldHook = hookmetamethod(game, "__namecall", function(self, ...)
-            local method = getnamecallmethod()
-            local args = {...}
-            
-            if bulletTrackingEnabled and method == "Raycast" and not checkcaller() then
-                local origin = args[1] or Camera.CFrame.Position
-                local closestHead = getClosestHead()
-                
-                if closestHead then
-                    return {
-                        Instance = closestHead,
-                        Position = closestHead.Position,
-                        Normal = (origin - closestHead.Position).Unit,
-                        Material = Enum.Material.Plastic,
-                        Distance = (closestHead.Position - origin).Magnitude
-                    }
-                end
-            end
-
-            return oldHook(self, ...)
-        end)
-    end
-end
-
-bulletTrackingEnabled = true
-setupBulletTracking() 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E5%AD%90%E8%BF%BD%E8%84%9A%E6%9C%AC%E7%A9%BF%E5%A2%99.lua"))()
 end
 })
 
