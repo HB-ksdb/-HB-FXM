@@ -27,7 +27,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/
 -- =  =
 elseif game.PlaceId == 3956818381 then-- 忍者传奇收费
     YIJIAOBEN = "YIJIAOBEN"
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87.txt",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
 -- =  =
 -- ================  ================
 -- =  =
