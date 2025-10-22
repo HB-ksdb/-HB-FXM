@@ -332,13 +332,16 @@ local Paragraph = Tab:Paragraph({
 -- ================ 选项下拉 ================
 local Tabs = {
     Main = Window:Section({ Title = "通用", Opened = true }),
+    xx = Window:Section({ Title = "服务器", Opened = true }),        
     gn = Window:Section({ Title = "UI自定义", Opened = true }),    
 }
 
 local TabHandles = {
-    YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "layout-grid" }),    
-    Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "layout-grid" }),        
-    SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "layout-grid" }),    
+    YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
+    Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
+    E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "dashed" }),            
+    ER = Tabs.xx:Tab({ Title = "加入服务器", Icon = "chart-bar-big" }),            
+    SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "expand" }),    
 }
 
 
@@ -387,7 +390,21 @@ Slider = TabHandles.YI:Slider({
         game.Workspace.Gravity = value
     end
 })
+
+Slider = TabHandles.YI:Slider({
+    Title = "视野(正常70)",
+    Value = {
+        Min = 70,
+        Max = 0.1,
+        Default = 250,
+    },
+    Increment = 1,
+    Callback = function(v)
+game.Workspace.CurrentCamera.FieldOfView = v
+    end
+})
 TabHandles.YI:Divider()
+
 -- ================ 通用下 ================
 
 
@@ -1019,7 +1036,22 @@ WindUI:Notify({
 -- ================  ================
 -- =  =
 
-
+Button = TabHandles.YI:Button({
+    Title = "甩飞所有人",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/GnvPVBEi"))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
 
 
 
@@ -1208,8 +1240,6 @@ WindUI:Notify({
 })
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
-
-
 
 
 
@@ -1955,28 +1985,798 @@ Toggle = TabHandles.Q:Toggle({
         getgenv().ShowName = Value
     end
 })
+-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
+-- ================  ================
+getgenv().ESPEnabled = false -- Toggle ESP On/Off
+getgenv().ShowBox = false -- Show bounding boxes
+getgenv().ShowHealth = false -- Show health
+getgenv().ShowName = false -- Show player names
+getgenv().ShowDistance = false -- Show distance to players
+getgenv().ShowTracer = false -- Show tracers
+getgenv().TeamCheck = false -- Exclude teammates
+
+-- Roblox Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+
+-- Helper function to create ESP components
+local function createESP(player)
+    local box = Drawing.new("Square")
+    box.Visible = false
+    box.Color = Color3.new(1, 1, 1)
+    box.Thickness = 1
+    box.Filled = false
+
+    local healthText = Drawing.new("Text")
+    healthText.Visible = false
+    healthText.Color = Color3.new(0, 1, 0)
+    healthText.Size = 16
+
+    local nameText = Drawing.new("Text")
+    nameText.Visible = false
+    nameText.Color = Color3.new(1, 1, 1)
+    nameText.Size = 16
+
+    local distanceText = Drawing.new("Text")
+    distanceText.Visible = false
+    distanceText.Color = Color3.new(1, 1, 0)
+    distanceText.Size = 16
+
+    local tracer = Drawing.new("Line")
+    tracer.Visible = false
+    tracer.Color = Color3.new(1, 0, 0)
+    tracer.Thickness = 1
+
+    -- Update ESP dynamically
+    RunService.RenderStepped:Connect(function()
+        if not getgenv().ESPEnabled or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") or not player.Character:FindFirstChild("Humanoid") or player == LocalPlayer then
+            box.Visible = false
+            healthText.Visible = false
+            nameText.Visible = false
+            distanceText.Visible = false
+            tracer.Visible = false
+            return
+        end
+
+        if getgenv().TeamCheck and player.Team == LocalPlayer.Team then
+            box.Visible = false
+            healthText.Visible = false
+            nameText.Visible = false
+            distanceText.Visible = false
+            tracer.Visible = false
+            return
+        end
+
+        local character = player.Character
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+        local humanoid = character:FindFirstChild("Humanoid")
+
+        if rootPart and humanoid and humanoid.Health > 0 then
+            local rootPos, onScreen = Camera:WorldToViewportPoint(rootPart.Position)
+            local headPos, _ = Camera:WorldToViewportPoint(rootPart.Position + Vector3.new(0, 3, 0))
+            local legPos, _ = Camera:WorldToViewportPoint(rootPart.Position - Vector3.new(0, 3, 0))
+
+            -- Box
+            if getgenv().ShowBox and onScreen then
+                box.Size = Vector2.new(1000 / rootPos.Z, headPos.Y - legPos.Y)
+                box.Position = Vector2.new(rootPos.X - box.Size.X / 2, rootPos.Y - box.Size.Y / 2)
+                box.Visible = true
+            else
+                box.Visible = false
+            end
+
+            -- Health
+            if getgenv().ShowHealth and onScreen then
+                healthText.Position = Vector2.new(rootPos.X, rootPos.Y - box.Size.Y / 2 - 20)
+                healthText.Text = "血量: " .. math.floor(humanoid.Health)
+                healthText.Visible = true
+            else
+                healthText.Visible = false
+            end
+
+            -- Name
+            if getgenv().ShowName and onScreen then
+                nameText.Position = Vector2.new(rootPos.X, rootPos.Y - box.Size.Y / 2 - 40)
+                nameText.Text = "名字: " .. player.Name
+                nameText.Visible = true
+            else
+                nameText.Visible = false
+            end
+
+            -- Distance
+            if getgenv().ShowDistance and onScreen then
+                local distance = (LocalPlayer.Character.HumanoidRootPart.Position - rootPart.Position).Magnitude
+                distanceText.Position = Vector2.new(rootPos.X, rootPos.Y + box.Size.Y / 2 + 20)
+                distanceText.Text = "距离: " .. math.floor(distance) .. " ㎝"
+                distanceText.Visible = true
+            else
+                distanceText.Visible = false
+            end
+
+            -- Tracer
+            if getgenv().ShowTracer then
+                tracer.From = getgenv().TracerStart == "Bottom" and Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y) or Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+                tracer.To = Vector2.new(rootPos.X, rootPos.Y)
+                tracer.Visible = onScreen
+            else
+                tracer.Visible = false
+            end
+        else
+            box.Visible = false
+            healthText.Visible = false
+            nameText.Visible = false
+            distanceText.Visible = false
+            tracer.Visible = false
+        end
+    end)
+end
+
+-- Apply ESP to all players
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end)
+-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
+-- ================  ================
+TabHandles.SAN:Paragraph({
+    Title = "透视配置",
+    Desc = "设置",
+    Image = "save",
+    ImageSize = 20,
+    Color = "White"
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "确定开启esp",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().ESPEnabled = Value 
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "身体方框",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().ShowBox = Value 
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "血量",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().ShowHealth = Value 
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "用户名",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().ShowName = Value
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "距离",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().ShowDistance = Value 
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "天线",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+  getgenv().ShowTracer = Value 
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "团队判断",
+    Desc = "",
+    Locked = false,
+    Callback = function(Value)
+    getgenv().TeamCheck = Value 
+ end
+})
+
+-- ================  ================
+-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =    
+local bin = {
+    fovsize = 20,
+    fovlookAt = false,
+    fovcolor = Color3.fromRGB(255, 255, 255),
+    fovthickness = 2,
+    Visible = false,
+    distance = 40,
+    ViewportSize = 2,
+    Transparency = 1,
+    Position = "Head",
+    teamCheck = false,
+    wallCheck = false,
+    aliveCheck = false,
+    prejudgingselfsighting = false,
+    prejudgingselfsightingdistance = 0
+}
+
+local colorMap = {
+    ["红色"] = Color3.fromRGB(255, 0, 0),
+    ["蓝色"] = Color3.fromRGB(0, 0, 255),
+    ["黄色"] = Color3.fromRGB(255, 255, 0),
+    ["绿色"] = Color3.fromRGB(0, 255, 0),
+    ["青色"] = Color3.fromRGB(0, 255, 255),
+    ["橙色"] = Color3.fromRGB(255, 165, 0),
+    ["紫色"] = Color3.fromRGB(128, 0, 128),
+    ["白色"] = Color3.fromRGB(255, 255, 255),
+    ["黑色"] = Color3.fromRGB(0, 0, 0)
+}
+
+local function isSameTeam(player)
+    return player.Team ~= LocalPlayer.Team
+end
+
+local function isLookingAtWall(player, trg_part)
+    if not wallCheck then
+        return true
+    end
+
+    local localPlayerCharacter = Players.LocalPlayer.Character
+    if not localPlayerCharacter then
+        return false
+    end
+
+    local part = player.Character and player.Character:FindFirstChild(trg_part)
+    if not part then
+        return false
+    end
+
+    local ray = Ray.new(Cam.CFrame.Position, part.Position - Cam.CFrame.Position)
+    local hit, position = workspace:FindPartOnRayWithIgnoreList(ray, {localPlayerCharacter})
+
+    return hit and hit:IsDescendantOf(player.Character)
+end
+
+local function createFOV(fov, color, thickness, transparency)
+    local RunService = game:GetService("RunService")
+    local UserInputService = game:GetService("UserInputService")
+    local Players = game:GetService("Players")
+    local Cam = game.Workspace.CurrentCamera
+
+    if FOVring then
+        FOVring:Remove()
+    end
+
+    FOVring = Drawing.new("Circle")
+    FOVring.Visible = true
+    FOVring.Thickness = thickness
+    FOVring.Color = color
+    FOVring.Filled = false
+    FOVring.Radius = fov
+    FOVring.Position = Cam.ViewportSize / 2
+    FOVring.Transparency = transparency
+    local function updateDrawings()
+        local camViewportSize = Cam.ViewportSize
+        FOVring.Position = camViewportSize / 2
+    end
+
+    local function updatePlayerPositions(player)
+        if player == game.Players.LocalPlayer then return end
+        local character = player.Character
+        if character then
+            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                local position = humanoidRootPart.Position
+                if not playerPositions[player] then
+                    playerPositions[player] = {}
+                end
+                while #playerPositions[player] > bin.prejudgingselfsightingdistance do
+                    table.remove(playerPositions[player], 1)
+                end
+                table.insert(playerPositions[player], position)
+            end
+        end
+    end
     
+    local function onKeyDown(input)
+        if input.KeyCode == Enum.KeyCode.Delete then
+            RunService:UnbindFromRenderStep("FOVUpdate")
+            FOVring:Remove()
+        end
+    end
 
+    UserInputService.InputBegan:Connect(onKeyDown)
 
+    local function lookAt(target)
+        local lookVector = (target - Cam.CFrame.Position).unit
+        local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
+        Cam.CFrame = newCFrame
+    end
 
+    local function isPlayerAlive(player)
+        return player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0
+    end
 
+local function getClosestPlayerInFOV(trg_part)
+    local nearest = nil
+    local last = math.huge
+    local playerMousePos = Cam.ViewportSize / 2
+    local maxDistance = bin.distance
+    for _, player in ipairs(Players:GetPlayers()) do
+        if (not bin.aliveCheck or isPlayerAlive(player)) and player ~= Players.LocalPlayer then
+            local part = player.Character and player.Character:FindFirstChild(trg_part)
+            if part then
+                local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
+                if ePos and isVisible then
+                    local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+                    if distance < last and distance <= bin.fovsize and distance <= maxDistance then
+                        if not bin.teamCheck or (bin.teamCheck and isSameTeam(player)) then
+                            if not bin.wallCheck or (bin.wallCheck and isLookingAtWall(player, maxDistance)) then
+                                last = distance
+                                nearest = player
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return nearest
+end
+    RunService.RenderStepped:Connect(function()
+        updateDrawings()
+        if bin.fovlookAt then
+            local closest = getClosestPlayerInFOV(bin.Position)
+            if closest and closest.Character:FindFirstChild(bin.Position) then
+                local targetPosition = closest.Character[bin.Position].Position
+                if not bin.teamCheck or not isSameTeam(closest) then
+                    if not bin.wallCheck or not isLookingAtWall(closest, bin.distance) then
+                        lookAt(targetPosition)
+                    end
+                end
+            end
+        end
+    end)
+end
 
+local function destroyFOV()
+    if FOVring then
+        local RunService = game:GetService("RunService")
+        RunService:UnbindFromRenderStep("FOVUpdate")
+        FOVring:Remove()
+        FOVring = nil
+    end
+end
 
+local function updateFOV()
+    if FOVring then
+        FOVring.Thickness = bin.fovthickness
+        FOVring.Radius = bin.fovsize
+        FOVring.Color = bin.fovcolor
+        FOVring.Transparency = bin.Transparency / 10
+    end
+end
+-- ================  ================
+-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 
+Toggle = TabHandles.E:Toggle({
+    Title = "显示FOV",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    if state then
+        createFOV(bin.fovsize, bin.fovcolor, bin.fovthickness, bin.Transparency)
+    else
+        destroyFOV()
+    end
+    
+WindUI:Notify({
+            Title = "HB FXM 中心：",
+            Content = state and "已开启FOV" or "已关闭FOV",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
 
+Toggle = TabHandles.E:Toggle({
+    Title = "启动/禁用自瞄",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    bin.fovlookAt = state
+    
+WindUI:Notify({
+            Title = "HB FXM：",
+            Content = state and "已开启启动" or "已关闭禁用自瞄",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
 
+Slider = TabHandles.E:Slider({
+    Title = "FOV厚度",
+    Value = {
+        Min = 2,
+        Max = 0,
+        Default = 10,
+    },
+    Increment = 1,
+    Callback = function(value)
+    bin.fovthickness = value
+    updateFOV()
+    end
+})
 
+Slider = TabHandles.E:Slider({
+    Title = "FOV大小",
+    Value = {
+        Min = 20,
+        Max = 0,
+        Default = 100,
+    },
+    Increment = 1,
+    Callback = function(value)
+    bin.fovsize = value
+    updateFOV()
+    end
+})
 
+Slider = TabHandles.E:Slider({
+    Title = "FOV透明度",
+    Value = {
+        Min = 1,
+        Max = 0,
+        Default = 10,
+    },
+    Increment = 1,
+    Callback = function(value)
+    bin.Transparency = value
+    updateFOV()
+    end
+})
 
+Slider = TabHandles.E:Slider({
+    Title = "FOV距离",
+    Value = {
+        Min = 40,
+        Max = 10,
+        Default = 500,
+    },
+    Increment = 1,
+    Callback = function(value)
+    bin.distance = value
+    end
+})
 
+Dropdown = TabHandles.E:Dropdown({
+    Title = "FOV颜色", 
+    Values = {"红色","蓝色","黄色","绿色","青色","橙色","紫色","白色","黑色"}, 
+    Value = "请选择", 
+    Callback = function(Value) 
+    bin.fovcolor = colorMap[value]
+    updateFOV()
+end
+})
 
+Dropdown = TabHandles.E:Dropdown({
+    Title = "选择部位", 
+    Values = {"Head", "HumanoidRootPart", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm", "LeftFoot", "LeftLowerLeg", "UpperTorso", "LeftUpperLeg", "RightFoot", "RightLowerLeg", "LowerTorso", "RightUpperLeg"}, 
+    Value = "请选择", 
+    Callback = function(Value) 
+    bin.Position = Value
+    updateFOV()
+end
+})
 
+Toggle = TabHandles.E:Toggle({
+    Title = "队伍检测",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    bin.teamCheck = state
+    
+WindUI:Notify({
+            Title = "HB FXM ：",
+            Content = state and "已开启队伍检测" or "已关闭队伍检测",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
 
+Toggle = TabHandles.E:Toggle({
+    Title = "活体检测",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    bin.aliveCheck = state
+    
+WindUI:Notify({
+            Title = "HB FXM ：",
+            Content = state and "已开启活体检测" or "已关闭活体检测",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })        
+ end
+})
 
+Toggle = TabHandles.E:Toggle({
+    Title = "墙壁检测",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    bin.wallCheck = state
+    
+WindUI:Notify({
+            Title = "HB FXM ：",
+            Content = state and "已开启墙壁检测" or "已关闭墙壁检测",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
+
+Toggle = TabHandles.E:Toggle({
+    Title = "预判自瞄",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    bin.prejudgingselfsighting = state
+    
+WindUI:Notify({
+            Title = "HB FXM：",
+            Content = state and "已开启预判自瞄" or "已关闭预判自瞄",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
+
+Slider = TabHandles.E:Slider({
+    Title = "预判距离",
+    Value = {
+        Min = 40,
+        Max = 10,
+        Default = 500,
+    },
+    Increment = 1,
+    Callback = function(value)
+    bin.prejudgingselfsightingdistance = value
+    end
+})
+
+Toggle = TabHandles.E:Toggle({
+    Title = "开启Kill Aura(要拿起武器)",
+    Desc = "",
+    Locked = false,
+    Callback = function(state)
+    if state then
+        local connections = getgenv().configs and getgenv().configs.connections
+        if connections then
+            local Disable = getgenv().configs.Disable
+            for _, v in pairs(connections) do
+                v:Disconnect()
+            end
+            Disable:Fire()
+            Disable:Destroy()
+            table.clear(getgenv().configs)
+        end
+
+        local Disable = Instance.new("BindableEvent")
+        getgenv().configs = {
+            connections = {},
+            Disable = Disable,
+            Size = Vector3.new(10, 10, 10),
+            DeathCheck = true
+        }
+
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local lp = Players.LocalPlayer
+        local Run = true
+        local Ignorelist = OverlapParams.new()
+        Ignorelist.FilterType = Enum.RaycastFilterType.Include
+
+        local function getchar(plr)
+            plr = plr or lp
+            return plr.Character
+        end
+
+        local function gethumanoid(plr)
+            local char = plr:IsA("Model") and plr or getchar(plr)
+            if char then
+                return char:FindFirstChildWhichIsA("Humanoid")
+            end
+        end
+
+        local function IsAlive(Humanoid)
+            return Humanoid and Humanoid.Health > 0
+        end
+
+        local function GetTouchInterest(Tool)
+            return Tool and Tool:FindFirstChildWhichIsA("TouchTransmitter", true)
+        end
+
+        local function GetCharacters(LocalPlayerChar)
+            local Characters = {}
+            for _, v in pairs(Players:GetPlayers()) do
+                table.insert(Characters, getchar(v))
+            end
+            for i, char in pairs(Characters) do
+                if char == LocalPlayerChar then
+                    table.remove(Characters, i)
+                    break
+                end
+            end
+            return Characters
+        end
+
+        local function Attack(Tool, TouchPart, ToTouch)
+            if Tool:IsDescendantOf(workspace) then
+                Tool:Activate()
+                firetouchinterest(TouchPart, ToTouch, 1)
+                firetouchinterest(TouchPart, ToTouch, 0)
+            end
+        end
+
+        table.insert(getgenv().configs.connections, Disable.Event:Connect(function()
+            Run = false
+        end))
+
+        while Run do
+            local char = getchar()
+            if IsAlive(gethumanoid(char)) then
+                local Tool = char and char:FindFirstChildWhichIsA("Tool")
+                local TouchInterest = Tool and GetTouchInterest(Tool)
+
+                if TouchInterest then
+                    local TouchPart = TouchInterest.Parent
+                    local Characters = GetCharacters(char)
+                    Ignorelist.FilterDescendantsInstances = Characters
+                    local InstancesInBox = workspace:GetPartBoundsInBox(TouchPart.CFrame, TouchPart.Size + getgenv().configs.Size, Ignorelist)
+
+                    for _, v in pairs(InstancesInBox) do
+                        local Character = v:FindFirstAncestorWhichIsA("Model")
+                        if table.find(Characters, Character) then
+                            if getgenv().configs.DeathCheck and IsAlive(gethumanoid(Character)) then
+                                Attack(Tool, TouchPart, v)
+                            elseif not getgenv().configs.DeathCheck then
+                                Attack(Tool, TouchPart, v)
+                            end
+                        end
+                    end
+                end
+            end
+            RunService.Heartbeat:Wait()
+        end
+    else
+        local Disable = getgenv().configs.Disable
+        if Disable then
+            Disable:Fire()
+            Disable:Destroy()
+        end
+
+        for _, connection in pairs(getgenv().configs.connections) do
+            connection:Disconnect()
+        end
+        table.clear(getgenv().configs.connections)
+        Run = false
+    end
+    
+WindUI:Notify({
+            Title = "HB FXM：",
+            Content = state and "已开启" or "已关闭",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
+
+Button = TabHandles.ER:Button({
+    Title = "加入极速传奇",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function()
+local game_id = 3101667897
+        local game_url = "https://www.roblox.com/games/"..game_id
+        game:GetService("TeleportService"):Teleport(game_id, game.Players.LocalPlayer)
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+
+Button = TabHandles.ER:Button({
+    Title = "加入忍者传奇",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function()
+local game_id = 3956818381
+        local game_url = "https://www.roblox.com/games/"..game_id
+        game:GetService("TeleportService"):Teleport(game_id, game.Players.LocalPlayer)
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+
+Button = TabHandles.ER:Button({
+    Title = "加入自然灾害生存游戏",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function()
+local game_id = 189707
+        local game_url = "https://www.roblox.com/games/"..game_id
+        game:GetService("TeleportService"):Teleport(game_id, game.Players.LocalPlayer)
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+
+Button = TabHandles.ER:Button({
+    Title = "加入力量传奇",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function()
+local game_id = 3623096087
+        local game_url = "https://www.roblox.com/games/"..game_id
+        game:GetService("TeleportService"):Teleport(game_id, game.Players.LocalPlayer)
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
 
 
 -- ================ UI自定义 ================
-local Button = TabHandles.SAN:Button({
+local Paragraph = TabHandles.SAN:Paragraph({
     Title = "自定义界面",
     Desc = "个性化您的体验",
     Image = "palette",
