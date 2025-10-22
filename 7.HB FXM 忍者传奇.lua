@@ -218,6 +218,28 @@ end
 local HttpService = game:GetService("HttpService")
 local Plr = game:GetService("Players")
 local LP = Plr.LocalPlayer
+-- ================ 防抓包(放最上面的开头) ================
+function Antihook()
+    return "Hook"
+end
+
+hookfunction(Antihook, function()
+    return "No Hook"
+end)
+
+hookfunction(game.HttpGet, print)
+
+if not isfunctionhooked(Antihook) or not isfunctionhooked(game.HttpGet) then
+    game:shutdown("别搞我")
+    while true do end
+end
+
+restorefunction(game.HttpGet)
+
+if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhooked(tostring) then
+    game:shutdown("666")
+    while true do end
+end
 
 local Version = "1.6.41"
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
