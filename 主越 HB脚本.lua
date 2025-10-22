@@ -80,9 +80,7 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
     while true do end
 end
 -- ================  ================
-local Version = "1.6.41"
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
-
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 -- ================ 1.5.弹窗窗口显示 ================
         WindUI:Popup({
             Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
