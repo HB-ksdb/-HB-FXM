@@ -2127,7 +2127,7 @@ Players.PlayerAdded:Connect(function(player)
 end)
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 -- ================  ================
-TabHandles.SAN:Paragraph({
+TabHandles.Q:Paragraph({
     Title = "透视配置",
     Desc = "设置",
     Image = "save",
@@ -2417,9 +2417,9 @@ WindUI:Notify({
 Slider = TabHandles.E:Slider({
     Title = "FOV厚度",
     Value = {
-        Min = 2,
-        Max = 0,
-        Default = 10,
+        Min = 1,
+        Max = 10,
+        Default = 1,
     },
     Increment = 1,
     Callback = function(value)
@@ -2431,9 +2431,9 @@ Slider = TabHandles.E:Slider({
 Slider = TabHandles.E:Slider({
     Title = "FOV大小",
     Value = {
-        Min = 20,
-        Max = 0,
-        Default = 100,
+        Min = 1,
+        Max = 100,
+        Default = 1,
     },
     Increment = 1,
     Callback = function(value)
@@ -2446,8 +2446,8 @@ Slider = TabHandles.E:Slider({
     Title = "FOV透明度",
     Value = {
         Min = 1,
-        Max = 0,
-        Default = 10,
+        Max = 50,
+        Default = 1,
     },
     Increment = 1,
     Callback = function(value)
@@ -2459,9 +2459,9 @@ Slider = TabHandles.E:Slider({
 Slider = TabHandles.E:Slider({
     Title = "FOV距离",
     Value = {
-        Min = 40,
-        Max = 10,
-        Default = 500,
+        Min = 1,
+        Max = 9000,
+        Default = 1,
     },
     Increment = 1,
     Callback = function(value)
@@ -2560,9 +2560,9 @@ WindUI:Notify({
 Slider = TabHandles.E:Slider({
     Title = "预判距离",
     Value = {
-        Min = 40,
-        Max = 10,
-        Default = 500,
+        Min = 1,
+        Max = 2000,
+        Default = 1,
     },
     Increment = 1,
     Callback = function(value)
