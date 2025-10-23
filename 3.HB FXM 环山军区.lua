@@ -22,7 +22,6 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
 end
 -- ================  ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-
 -- ================ 1.5.弹窗窗口显示 ================
         WindUI:Popup({
             Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
@@ -51,7 +50,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 -- ================ 2.Ul背景…… ================
 local Window = WindUI:CreateWindow({
-        Title = "越 HB<font color='#00FF00'>1.5</font>",
+        Title = "<font color='#FF0000'>HB I FXM</font>",
         Icon = "rbxassetid://4483362748",-- =  =背景右上角的图片
         IconTransparency = 0.5,
         IconThemed = true,
@@ -59,6 +58,7 @@ local Window = WindUI:CreateWindow({
         Folder = "CloudHub",
         Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
+        Theme = "Midnight",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -72,25 +72,52 @@ local Window = WindUI:CreateWindow({
         Window:EditOpenButton({
             Title = " HB FXM脚本",
             Icon = "sword",
-            CornerRadius = UDim.new(0, 16),
-            StrokeThickness = 2,
-            Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
+            CornerRadius = UDim.new(0, 1),
+            StrokeThickness = 3,
+            Color = ColorSequence.new(Color3.fromHex("#ff0000"), Color3.fromHex("#ffc0cb")),
             Draggable = true
         })
 
+-- ================ 标题 ================
+
 Window:Tag({
-    Title = "v2.0越 HB",
+    Title = "v2.0HB FXM",
     Color = Color3.fromHex("#30ff6a")
 })
 
+
+
 Window:Tag({
-        Title = "越 HB版", -- 标签汉化
-        Color = Color3.fromHex("#315dff")
+        Title = " HB FXM", -- 标签汉化
+        Color = Color3.fromHex("#800080")
     })
-    local TimeTag = Window:Tag({
-        Title = "环山军区",
-        Color = Color3.fromHex("#000000")
+        local TimeTag = Window:Tag({
+        Title = "00:00",
+        Color = Color3.fromHex("#ff0000")
     })
+    
+    -- Rainbow effect & Time 
+    local hue = 0
+    task.spawn(function()
+        while true do
+            local now = os.date("*t")
+            local hours = string.format("%02d", now.hour)
+            local minutes = string.format("%02d", now.min)
+            
+            hue = (hue + 0.01) % 1
+            local color = Color3.fromHSV(hue, 1, 1)
+            
+            TimeTag:SetTitle(hours .. ":" .. minutes)
+            --TimeTag:SetColor(color)
+
+            task.wait(0.06)
+        end
+    end)
+    
+    
+    
+    
+-- ================  ================
 
 WindUI:Notify({
     Title = "HB FXM ",
