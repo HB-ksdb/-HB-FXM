@@ -171,6 +171,7 @@ local Window = WindUI:CreateWindow({
         Folder = "CloudHub",
         Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
+        Theme = "Midnight",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -242,117 +243,29 @@ WindUI:Notify({
 
 
 
--- ================ 公告或通知 ================
-local Tab = Window:Tab({-- = Tab =
-    Title = "信息ℹ️",
-    Icon = "layout-grid",
-    Locked = false,
-})
 
-local Paragraph = Tab:Paragraph({
-    Title = "支持人",
-    Desc = "合作人：FXM 支持：小猫土豆 支持：小皮",
-    Image = "palette",
-    ImageSize = 45,
-    Color = "White"
-})
+-- ================ 选项下拉 ================
+local Tabs = {
+    HB = Window:Section({ Title = "公告或脚本", Opened = true }),
+    Main = Window:Section({ Title = "通用", Opened = true }),
+    xx = Window:Section({ Title = "服务器", Opened = true }),        
+    gn = Window:Section({ Title = "UI自定义", Opened = true }),    
+}
 
--- ================ 图片x ================
-local Paragraph = Tab:Paragraph({
-    Title = "欢迎使用 越 HB脚本",
-    Desc = "QQ群 1055870765",
-    Thumbnail = "rbxassetid://79087575647853",-- = ID图片大 =
-    ThumbnailSize = 120,
-})
-
--- ================ 你的账号用户名ID ================
-local Paragraph = Tab:Paragraph({
-    Title = "您的用户名ID：",
-    Desc = "" .. game:GetService("Players").LocalPlayer.UserId .. "",
-    Buttons = {{
-        Title = "复制您的用户名ID",
-        Icon = "copy",
-        Variant = "Primary",
-        Callback = function()
-
-            setclipboard(game:GetService("Players").LocalPlayer.UserId)
-
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
-            Sound.SoundId = "rbxassetid://2865227271"
-            Sound:Play()
-            WindUI:Notify({
-                Title = "HB脚本中心---提示：",
-                Content = "已成功复制！",
-                Icon = "bell",
-                IconThemed = true, -- automatic color icon to theme 
-                Duration = 5
-            })
-
-        end,
-        Icon = "bird"
-    }}
-})
-
-
--- ================ 服务器名 ================
-local Paragraph = Tab:Paragraph({
-    Title = "您所在的服务器名称：",
-    Desc = "" .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. "",
-    Buttons = {{
-        Title = "复制您所在的服务器名称",
-        Icon = "copy",
-        Variant = "Primary",
-        Callback = function()
-
-            setclipboard(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
-
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
-            Sound.SoundId = "rbxassetid://2865227271"
-            Sound:Play()
-            WindUI:Notify({
-                Title = "HB脚本中心---提示：",
-                Content = "已成功复制！",
-                Icon = "bell",
-                IconThemed = true, -- automatic color icon to theme 
-                Duration = 5
-            })
-
-        end,
-        Icon = "bird"
-    }}
-})
-
--- ================ 账号注册时间天 ================
-local Paragraph = Tab:Paragraph({
-    Title = "您的账号注册时间（天）：",
-    Desc = "" .. game:GetService("Players").LocalPlayer.AccountAge .. "",
-    Buttons = {{
-        Title = "复制您的注册时间",
-        Icon = "copy",
-        Variant = "Primary",
-        Callback = function()
-
-            setclipboard(game:GetService("Players").LocalPlayer.AccountAge)
-
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
-            Sound.SoundId = "rbxassetid://2865227271"
-            Sound:Play()
-            WindUI:Notify({
-                Title = "HB脚本中心---提示：",
-                Content = "已成功复制！",
-                Icon = "bell",
-                IconThemed = true, -- automatic color icon to theme 
-                Duration = 5
-            })
-
-        end,
-        Icon = "bird"
-    }}
-})
+local TabHandles = {
+    Y = Tabs.HB:Tab({ Title = "信息", Icon = "atom" }),    
+    QI = Tabs.HB:Tab({ Title = "脚本选择", Icon = "atom" }),            
+    YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
+    Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
+    E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "lock", Desc = "This tab is locked", Locked = true }),
+    ER = Tabs.xx:Tab({ Title = "加入服务器", Icon = "chart-bar-big" }),            
+    SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "expand" }),    
+    XX = Tabs.gn:Tab({ Title = "UI.2", Icon = "expand" }),        
+}
 
 
 -- ================ 测试注入器 ================
-local Paragraph = Tab:Paragraph({
+Paragraph = TabHandles.Y:Paragraph({
     Title = "您的注入器：",
     Desc = "" .. identifyexecutor() .. "",
     Image = "rbxassetid://129287693322764",
@@ -393,24 +306,175 @@ local Paragraph = Tab:Paragraph({
     }}
 })
 
+Paragraph = TabHandles.Y:Paragraph({
+    Title = "支持人",
+    Desc = "合作人：FXM 支持：小猫土豆 支持：小皮",
+    Image = "palette",
+    ImageSize = 45,
+    Color = "White"
+})
+
+-- ================ 图片x ================
+Paragraph = TabHandles.Y:Paragraph({
+    Title = "欢迎使用 越 HB脚本",
+    Desc = "QQ群 1055870765",
+    Thumbnail = "rbxassetid://79087575647853",-- = ID图片大 =
+    ThumbnailSize = 120,
+})
+
+-- ================ 你的账号用户名ID ================
+Paragraph = TabHandles.Y:Paragraph({
+    Title = "您的用户名ID：",
+    Desc = "" .. game:GetService("Players").LocalPlayer.UserId .. "",
+    Buttons = {{
+        Title = "复制您的用户名ID",
+        Icon = "copy",
+        Variant = "Primary",
+        Callback = function()
+
+            setclipboard(game:GetService("Players").LocalPlayer.UserId)
+
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2865227271"
+            Sound:Play()
+            WindUI:Notify({
+                Title = "HB脚本中心---提示：",
+                Content = "已成功复制！",
+                Icon = "bell",
+                IconThemed = true, -- automatic color icon to theme 
+                Duration = 5
+            })
+
+        end,
+        Icon = "bird"
+    }}
+})
 
 
--- ================ 选项下拉 ================
-local Tabs = {
-    Main = Window:Section({ Title = "通用", Opened = true }),
-    xx = Window:Section({ Title = "服务器", Opened = true }),        
-    gn = Window:Section({ Title = "UI自定义", Opened = true }),    
-}
+-- ================ 服务器名 ================
+Paragraph = TabHandles.Y:Paragraph({
+    Title = "您所在的服务器名称：",
+    Desc = "" .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. "",
+    Buttons = {{
+        Title = "复制您所在的服务器名称",
+        Icon = "copy",
+        Variant = "Primary",
+        Callback = function()
 
-local TabHandles = {
-    YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
-    Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
-    E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "zap" }),            
-    ER = Tabs.xx:Tab({ Title = "加入服务器", Icon = "chart-bar-big" }),            
-    SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "expand" }),    
-}
+            setclipboard(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
 
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2865227271"
+            Sound:Play()
+            WindUI:Notify({
+                Title = "HB脚本中心---提示：",
+                Content = "已成功复制！",
+                Icon = "bell",
+                IconThemed = true, -- automatic color icon to theme 
+                Duration = 5
+            })
 
+        end,
+        Icon = "bird"
+    }}
+})
+
+-- ================ 账号注册时间天 ================
+Paragraph = TabHandles.Y:Paragraph({
+    Title = "您的账号注册时间（天）：",
+    Desc = "" .. game:GetService("Players").LocalPlayer.AccountAge .. "",
+    Buttons = {{
+        Title = "复制您的注册时间",
+        Icon = "copy",
+        Variant = "Primary",
+        Callback = function()
+
+            setclipboard(game:GetService("Players").LocalPlayer.AccountAge)
+
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2865227271"
+            Sound:Play()
+            WindUI:Notify({
+                Title = "HB脚本中心---提示：",
+                Content = "已成功复制！",
+                Icon = "bell",
+                IconThemed = true, -- automatic color icon to theme 
+                Duration = 5
+            })
+
+        end,
+        Icon = "bird"
+    }}
+})
+
+Button = TabHandles.QI:Button({
+    Title = "［脚本选择］",
+    Callback = function()
+        Window:Dialog({
+            Title = "请选择",
+            Content = "［HB FXM］",
+            Icon = "bird",
+            Buttons = {
+                {
+                    Title = "［DOORS］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［自然灾害］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［战争大亨］",
+                    Icon = "bird",
+                    Variant = "Secondary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［忍者传奇］",
+                    Icon = "bird",
+                    Variant = "Primary",
+                    Callback = function() 
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［力量传奇］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［极速传奇］",
+                    Icon = "bird",
+                    Variant = "Secondary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［环山军区］",
+                    Icon = "bird",
+                    Variant = "Primary",
+                    Callback = function() 
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,                    
+                }
+            }
+        })
+    end,
+})
 
 
 -- ================ 更改跳跃 ================
@@ -2807,3 +2871,35 @@ else
     })
 end
 -- ================  ================
+
+local HttpService = game:GetService("HttpService")
+
+local folderPath = "UI"
+makefolder(folderPath)
+
+local function SaveFile(fileName, data)
+    local filePath = folderPath .. "/" .. fileName .. ".json"
+    local jsonData = HttpService:JSONEncode(data)
+    writefile(filePath, jsonData)
+end
+
+local function LoadFile(fileName)
+    local filePath = folderPath .. "/" .. fileName .. ".json"
+    if isfile(filePath) then
+        local jsonData = readfile(filePath)
+        return HttpService:JSONDecode(jsonData)
+    end
+end
+
+local function ListFiles()
+    local files = {}
+    for _, file in ipairs(listfiles(folderPath)) do
+        local fileName = file:match("([^/]+)%.json$")
+        if fileName then
+            table.insert(files, fileName)
+        end
+    end
+    return files
+end
+
+Section = TabHandles.XX:Section({({ Title = "UI" })
