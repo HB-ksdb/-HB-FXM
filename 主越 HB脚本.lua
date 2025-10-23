@@ -79,6 +79,60 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
     game:shutdown("666")
     while true do end
 end
+
+-- ================  ================
+local LBLG = Instance.new("ScreenGui", getParent)
+local LBL = Instance.new("TextLabel", getParent)
+local player = game.Players.LocalPlayer
+
+LBLG.Name = "LBLG"
+LBLG.Parent = game.CoreGui
+LBLG.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+LBLG.Enabled = true
+LBL.Name = "LBL"
+LBL.Parent = LBLG
+LBL.BackgroundColor3 = Color3.new(1, 1, 1)
+LBL.BackgroundTransparency = 1
+LBL.BorderColor3 = Color3.new(0, 0, 0)
+LBL.Position = UDim2.new(0.75,0,0.010,0)
+LBL.Size = UDim2.new(0, 133, 0, 30)
+LBL.Font = Enum.Font.GothamSemibold
+LBL.Text = "鹤pro"
+LBL.TextColor3 = Color3.new(1, 1, 1)
+LBL.TextScaled = true
+LBL.TextSize = 14
+LBL.TextWrapped = true
+LBL.Visible = true
+
+local FpsLabel = LBL
+local Heartbeat = game:GetService("RunService").Heartbeat
+local LastIteration, Start
+local FrameUpdateTable = { }
+
+local function HeartbeatUpdate()
+	LastIteration = tick()
+	for Index = #FrameUpdateTable, 1, -1 do
+		FrameUpdateTable[Index + 1] = (FrameUpdateTable[Index] >= LastIteration - 1) and FrameUpdateTable[Index] or nil
+	end
+	FrameUpdateTable[1] = LastIteration
+	local CurrentFPS = (tick() - Start >= 1 and #FrameUpdateTable) or (#FrameUpdateTable / (tick() - Start))
+	CurrentFPS = CurrentFPS - CurrentFPS % 1
+	FpsLabel.Text = ("HB FXM:"..os.date("%H").."时"..os.date("%M").."分"..os.date("%S")).."秒"
+end
+Start = tick()
+Heartbeat:Connect(HeartbeatUpdate)
+-- ================  ================
+
+
+
+
+
+
+
+
+
+
+
 -- ================  ================
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 -- ================ 1.5.弹窗窗口显示 ================
@@ -109,7 +163,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 -- ================ 2.Ul背景…… ================
 local Window = WindUI:CreateWindow({
-        Title = "越 HB<font color='#00FF00'>1.5</font>",
+        Title = "<font color='#FF0000'>HB I FXM</font>",
         Icon = "rbxassetid://4483362748",-- =  =背景右上角的图片
         IconTransparency = 0.5,
         IconThemed = true,
@@ -130,9 +184,9 @@ local Window = WindUI:CreateWindow({
         Window:EditOpenButton({
             Title = " HB FXM脚本",
             Icon = "sword",
-            CornerRadius = UDim.new(0, 16),
-            StrokeThickness = 2,
-            Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
+            CornerRadius = UDim.new(0, 1),
+            StrokeThickness = 3,
+            Color = ColorSequence.new(Color3.fromHex("#ff0000"), Color3.fromHex("#ffc0cb")),
             Draggable = true
         })
 
@@ -147,12 +201,31 @@ Window:Tag({
 
 Window:Tag({
         Title = " HB FXM", -- 标签汉化
-        Color = Color3.fromHex("#315dff")
+        Color = Color3.fromHex("#800080")
     })
-    local TimeTag = Window:Tag({
-        Title = " ",
-        Color = Color3.fromHex("#000000")
+        local TimeTag = Window:Tag({
+        Title = "00:00",
+        Color = Color3.fromHex("#ff0000")
     })
+    
+    -- Rainbow effect & Time 
+    local hue = 0
+    task.spawn(function()
+        while true do
+            local now = os.date("*t")
+            local hours = string.format("%02d", now.hour)
+            local minutes = string.format("%02d", now.min)
+            
+            hue = (hue + 0.01) % 1
+            local color = Color3.fromHSV(hue, 1, 1)
+            
+            TimeTag:SetTitle(hours .. ":" .. minutes)
+            --TimeTag:SetColor(color)
+
+            task.wait(0.06)
+        end
+    end)
+    
     
     
     
@@ -171,7 +244,7 @@ WindUI:Notify({
 
 -- ================ 公告或通知 ================
 local Tab = Window:Tab({-- = Tab =
-    Title = "公告",
+    Title = "信息ℹ️",
     Icon = "layout-grid",
     Locked = false,
 })
@@ -180,21 +253,17 @@ local Paragraph = Tab:Paragraph({
     Title = "支持人",
     Desc = "合作人：FXM 支持：小猫土豆 支持：小皮",
     Image = "palette",
-    ImageSize = 20,
+    ImageSize = 45,
     Color = "White"
 })
-
 
 -- ================ 图片x ================
 local Paragraph = Tab:Paragraph({
     Title = "欢迎使用 越 HB脚本",
     Desc = "QQ群 1055870765",
-    Image = "rbxassetid://73478000258877",-- = ID照片小 =
-    ImageSize = 42,
     Thumbnail = "rbxassetid://79087575647853",-- = ID图片大 =
     ThumbnailSize = 120,
 })
-
 
 -- ================ 你的账号用户名ID ================
 local Paragraph = Tab:Paragraph({
@@ -252,7 +321,6 @@ local Paragraph = Tab:Paragraph({
         Icon = "bird"
     }}
 })
-
 
 -- ================ 账号注册时间天 ================
 local Paragraph = Tab:Paragraph({
@@ -337,7 +405,7 @@ local Tabs = {
 local TabHandles = {
     YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
     Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
-    E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "dashed" }),            
+    E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "zap" }),            
     ER = Tabs.xx:Tab({ Title = "加入服务器", Icon = "chart-bar-big" }),            
     SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "expand" }),    
 }
@@ -393,8 +461,8 @@ Slider = TabHandles.YI:Slider({
     Title = "视野(正常70)",
     Value = {
         Min = 70,
-        Max = 0.1,
-        Default = 250,
+        Max = 250,
+        Default = 70,
     },
     Increment = 1,
     Callback = function(v)
@@ -2198,192 +2266,154 @@ Toggle = TabHandles.Q:Toggle({
 
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =    
-local bin = {
-    fovsize = 20,
-    fovlookAt = false,
-    fovcolor = Color3.fromRGB(255, 255, 255),
-    fovthickness = 2,
-    Visible = false,
-    distance = 40,
-    ViewportSize = 2,
-    Transparency = 1,
-    Position = "Head",
-    teamCheck = false,
-    wallCheck = false,
-    aliveCheck = false,
-    prejudgingselfsighting = false,
-    prejudgingselfsightingdistance = 0
-}
+local isAiming = false
+local isPredicting = false 
+local isLowHealthPriority = false
+local fov = 50 
+local plr = game:GetService("Players").LocalPlayer
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local Cam = workspace.CurrentCamera
 
-local colorMap = {
-    ["红色"] = Color3.fromRGB(255, 0, 0),
-    ["蓝色"] = Color3.fromRGB(0, 0, 255),
-    ["黄色"] = Color3.fromRGB(255, 255, 0),
-    ["绿色"] = Color3.fromRGB(0, 255, 0),
-    ["青色"] = Color3.fromRGB(0, 255, 255),
-    ["橙色"] = Color3.fromRGB(255, 165, 0),
-    ["紫色"] = Color3.fromRGB(128, 0, 128),
-    ["白色"] = Color3.fromRGB(255, 255, 255),
-    ["黑色"] = Color3.fromRGB(0, 0, 0)
-}
 
-local function isSameTeam(player)
-    return player.Team ~= LocalPlayer.Team
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = false
+FOVring.Thickness = 2
+FOVring.Color = Color3.fromRGB(255, 0, 0)
+FOVring.Filled = false
+FOVring.Radius = fov
+FOVring.Position = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
+
+
+local targetPart = "Head"
+
+
+local function updateDrawings()
+    FOVring.Position = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
 end
 
-local function isLookingAtWall(player, trg_part)
-    if not wallCheck then
-        return true
-    end
 
-    local localPlayerCharacter = Players.LocalPlayer.Character
-    if not localPlayerCharacter then
-        return false
-    end
-
-    local part = player.Character and player.Character:FindFirstChild(trg_part)
-    if not part then
-        return false
-    end
-
-    local ray = Ray.new(Cam.CFrame.Position, part.Position - Cam.CFrame.Position)
-    local hit, position = workspace:FindPartOnRayWithIgnoreList(ray, {localPlayerCharacter})
-
-    return hit and hit:IsDescendantOf(player.Character)
+local function removeFOVring()
+    FOVring.Visible = false
 end
 
-local function createFOV(fov, color, thickness, transparency)
-    local RunService = game:GetService("RunService")
-    local UserInputService = game:GetService("UserInputService")
-    local Players = game:GetService("Players")
-    local Cam = game.Workspace.CurrentCamera
 
-    if FOVring then
-        FOVring:Remove()
-    end
+local function lookAt(target)
+    local lookVector = (target - Cam.CFrame.Position).Unit
+    local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
+    Cam.CFrame = newCFrame
+end
 
-    FOVring = Drawing.new("Circle")
-    FOVring.Visible = true
-    FOVring.Thickness = thickness
-    FOVring.Color = color
-    FOVring.Filled = false
-    FOVring.Radius = fov
-    FOVring.Position = Cam.ViewportSize / 2
-    FOVring.Transparency = transparency
-    local function updateDrawings()
-        local camViewportSize = Cam.ViewportSize
-        FOVring.Position = camViewportSize / 2
-    end
 
-    local function updatePlayerPositions(player)
-        if player == game.Players.LocalPlayer then return end
-        local character = player.Character
-        if character then
-            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-            if humanoidRootPart then
-                local position = humanoidRootPart.Position
-                if not playerPositions[player] then
-                    playerPositions[player] = {}
-                end
-                while #playerPositions[player] > bin.prejudgingselfsightingdistance do
-                    table.remove(playerPositions[player], 1)
-                end
-                table.insert(playerPositions[player], position)
-            end
-        end
-    end
-    
-    local function onKeyDown(input)
-        if input.KeyCode == Enum.KeyCode.Delete then
-            RunService:UnbindFromRenderStep("FOVUpdate")
-            FOVring:Remove()
-        end
-    end
-
-    UserInputService.InputBegan:Connect(onKeyDown)
-
-    local function lookAt(target)
-        local lookVector = (target - Cam.CFrame.Position).unit
-        local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
-        Cam.CFrame = newCFrame
-    end
-
-    local function isPlayerAlive(player)
-        return player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0
-    end
-
-local function getClosestPlayerInFOV(trg_part)
+local function getClosestPlayerInFOV()
     local nearest = nil
     local last = math.huge
-    local playerMousePos = Cam.ViewportSize / 2
-    local maxDistance = bin.distance
+    local lowestHealthPlayer = nil
+    local lowestHealth = math.huge
+    local playerMousePos = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
+
     for _, player in ipairs(Players:GetPlayers()) do
-        if (not bin.aliveCheck or isPlayerAlive(player)) and player ~= Players.LocalPlayer then
-            local part = player.Character and player.Character:FindFirstChild(trg_part)
-            if part then
+        if player ~= plr then
+            local character = player.Character
+            if character and character:FindFirstChild(targetPart) then
+                local part = character[targetPart]
                 local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
-                if ePos and isVisible then
-                    local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-                    if distance < last and distance <= bin.fovsize and distance <= maxDistance then
-                        if not bin.teamCheck or (bin.teamCheck and isSameTeam(player)) then
-                            if not bin.wallCheck or (bin.wallCheck and isLookingAtWall(player, maxDistance)) then
-                                last = distance
-                                nearest = player
-                            end
-                        end
+                local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+
+                if distance < last and isVisible and distance < fov then
+                    last = distance
+                    nearest = player
+                end
+
+                
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid and humanoid.Health > 0 then
+                    if humanoid.Health < lowestHealth then
+                        lowestHealth = humanoid.Health
+                        lowestHealthPlayer = player
                     end
                 end
             end
         end
     end
+
+    
+    if isLowHealthPriority and lowestHealthPlayer then
+        return lowestHealthPlayer
+    end
+
     return nearest
 end
-    RunService.RenderStepped:Connect(function()
-        updateDrawings()
-        if bin.fovlookAt then
-            local closest = getClosestPlayerInFOV(bin.Position)
-            if closest and closest.Character:FindFirstChild(bin.Position) then
-                local targetPosition = closest.Character[bin.Position].Position
-                if not bin.teamCheck or not isSameTeam(closest) then
-                    if not bin.wallCheck or not isLookingAtWall(closest, bin.distance) then
-                        lookAt(targetPosition)
-                    end
+
+
+local function predictNextPosition(player, deltaTime)
+    local character = player.Character
+    if not character or not character:FindFirstChild(targetPart) then return end
+
+    local part = character[targetPart]
+    local velocity = part.Velocity
+    local nextPosition = part.Position + velocity * deltaTime * 1.2 
+    return nextPosition
+end
+
+
+local function toggleAiming(v)
+    if v then 
+        isAiming = true
+        FOVring.Visible = true
+
+        
+        targetPart = "Head"
+
+        
+        FOVring.Connection = RunService.RenderStepped:Connect(function(dt)
+            updateDrawings()
+            local closest = getClosestPlayerInFOV()
+            if closest and closest.Character and closest.Character:FindFirstChild(targetPart) then
+                local targetPosition = closest.Character[targetPart].Position
+                if isPredicting then
+                    targetPosition = predictNextPosition(closest, dt)
                 end
+                lookAt(targetPosition)
             end
+        end)
+    else 
+        isAiming = false
+        FOVring.Visible = false
+
+       
+        if FOVring.Connection then
+            FOVring.Connection:Disconnect()
+            FOVring.Connection = nil
         end
-    end)
-end
 
-local function destroyFOV()
-    if FOVring then
-        local RunService = game:GetService("RunService")
-        RunService:UnbindFromRenderStep("FOVUpdate")
-        FOVring:Remove()
-        FOVring = nil
+        
+        Cam.CFrame = workspace.CurrentCamera.CFrame
+
+        
+        targetPart = nil 
     end
 end
 
-local function updateFOV()
-    if FOVring then
-        FOVring.Thickness = bin.fovthickness
-        FOVring.Radius = bin.fovsize
-        FOVring.Color = bin.fovcolor
-        FOVring.Transparency = bin.Transparency / 10
-    end
+
+local function togglePredicting(v)
+    isPredicting = v
 end
+
+
+local function toggleLowHealthPriority(v)
+    isLowHealthPriority = v
+end
+
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 
 Toggle = TabHandles.E:Toggle({
-    Title = "显示FOV",
+    Title = "自瞄 (开/关)",
     Desc = "",
     Locked = false,
-    Callback = function(state)
-    if state then
-        createFOV(bin.fovsize, bin.fovcolor, bin.fovthickness, bin.Transparency)
-    else
-        destroyFOV()
-    end
+    Callback = function(v)
+    toggleAiming(v)
     
 WindUI:Notify({
             Title = "HB FXM 中心：",
@@ -2396,15 +2426,32 @@ WindUI:Notify({
 })
 
 Toggle = TabHandles.E:Toggle({
-    Title = "启动/禁用自瞄",
+    Title = "预判自瞄 (开/关)",
     Desc = "",
     Locked = false,
-    Callback = function(state)
-    bin.fovlookAt = state
+    Callback = function(v)
+    togglePredicting(v)
     
 WindUI:Notify({
             Title = "HB FXM：",
             Content = state and "已开启启动" or "已关闭禁用自瞄",
+            Icon = state and "check" or "x",
+            IconThemed = true, -- automatic color icon to theme 
+            Duration = 5,
+        })    
+ end
+})
+
+Toggle = TabHandles.Q:Toggle({
+    Title = "优先瞄准血量低的玩家 (开/关)",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    toggleLowHealthPriority(v)
+    
+WindUI:Notify({
+            Title = "脚本中心：",
+            Content = state and "已开启" or "已关闭",
             Icon = state and "check" or "x",
             IconThemed = true, -- automatic color icon to theme 
             Duration = 5,
@@ -2434,266 +2481,72 @@ Slider = TabHandles.E:Slider({
         Default = 1,
     },
     Increment = 1,
-    Callback = function(value)
-    bin.fovsize = value
-    updateFOV()
+    Callback = function(newFOV)
+    fov = newFOV
+    if isAiming then
+        FOVring.Radius = fov
+    else
+        removeFOVring() 
     end
+ end
 })
 
 Slider = TabHandles.E:Slider({
-    Title = "FOV透明度",
+    Title = "自瞄圈厚度",
     Value = {
         Min = 1,
         Max = 50,
         Default = 1,
     },
     Increment = 1,
-    Callback = function(value)
-    bin.Transparency = value
-    updateFOV()
-    end
-})
-
-Slider = TabHandles.E:Slider({
-    Title = "FOV距离",
-    Value = {
-        Min = 1,
-        Max = 9000,
-        Default = 1,
-    },
-    Increment = 1,
-    Callback = function(value)
-    bin.distance = value
-    end
-})
-
-Dropdown = TabHandles.E:Dropdown({
-    Title = "FOV颜色", 
-    Values = {"红色","蓝色","黄色","绿色","青色","橙色","紫色","白色","黑色"}, 
-    Value = "请选择", 
-    Callback = function(Value) 
-    bin.fovcolor = colorMap[value]
-    updateFOV()
-end
-})
-
-Dropdown = TabHandles.E:Dropdown({
-    Title = "选择部位", 
-    Values = {"Head", "HumanoidRootPart", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm", "LeftFoot", "LeftLowerLeg", "UpperTorso", "LeftUpperLeg", "RightFoot", "RightLowerLeg", "LowerTorso", "RightUpperLeg"}, 
-    Value = "请选择", 
-    Callback = function(Value) 
-    bin.Position = Value
-    updateFOV()
-end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "队伍检测",
-    Desc = "",
-    Locked = false,
-    Callback = function(state)
-    bin.teamCheck = state
-    
-WindUI:Notify({
-            Title = "HB FXM ：",
-            Content = state and "已开启队伍检测" or "已关闭队伍检测",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "活体检测",
-    Desc = "",
-    Locked = false,
-    Callback = function(state)
-    bin.aliveCheck = state
-    
-WindUI:Notify({
-            Title = "HB FXM ：",
-            Content = state and "已开启活体检测" or "已关闭活体检测",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })        
- end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "墙壁检测",
-    Desc = "",
-    Locked = false,
-    Callback = function(state)
-    bin.wallCheck = state
-    
-WindUI:Notify({
-            Title = "HB FXM ：",
-            Content = state and "已开启墙壁检测" or "已关闭墙壁检测",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "预判自瞄",
-    Desc = "",
-    Locked = false,
-    Callback = function(state)
-    bin.prejudgingselfsighting = state
-    
-WindUI:Notify({
-            Title = "HB FXM：",
-            Content = state and "已开启预判自瞄" or "已关闭预判自瞄",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Slider = TabHandles.E:Slider({
-    Title = "预判距离",
-    Value = {
-        Min = 1,
-        Max = 2000,
-        Default = 1,
-    },
-    Increment = 1,
-    Callback = function(value)
-    bin.prejudgingselfsightingdistance = value
-    end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "开启Kill Aura(要拿起武器)",
-    Desc = "",
-    Locked = false,
-    Callback = function(state)
-    if state then
-        local connections = getgenv().configs and getgenv().configs.connections
-        if connections then
-            local Disable = getgenv().configs.Disable
-            for _, v in pairs(connections) do
-                v:Disconnect()
-            end
-            Disable:Fire()
-            Disable:Destroy()
-            table.clear(getgenv().configs)
-        end
-
-        local Disable = Instance.new("BindableEvent")
-        getgenv().configs = {
-            connections = {},
-            Disable = Disable,
-            Size = Vector3.new(10, 10, 10),
-            DeathCheck = true
-        }
-
-        local Players = game:GetService("Players")
-        local RunService = game:GetService("RunService")
-        local lp = Players.LocalPlayer
-        local Run = true
-        local Ignorelist = OverlapParams.new()
-        Ignorelist.FilterType = Enum.RaycastFilterType.Include
-
-        local function getchar(plr)
-            plr = plr or lp
-            return plr.Character
-        end
-
-        local function gethumanoid(plr)
-            local char = plr:IsA("Model") and plr or getchar(plr)
-            if char then
-                return char:FindFirstChildWhichIsA("Humanoid")
-            end
-        end
-
-        local function IsAlive(Humanoid)
-            return Humanoid and Humanoid.Health > 0
-        end
-
-        local function GetTouchInterest(Tool)
-            return Tool and Tool:FindFirstChildWhichIsA("TouchTransmitter", true)
-        end
-
-        local function GetCharacters(LocalPlayerChar)
-            local Characters = {}
-            for _, v in pairs(Players:GetPlayers()) do
-                table.insert(Characters, getchar(v))
-            end
-            for i, char in pairs(Characters) do
-                if char == LocalPlayerChar then
-                    table.remove(Characters, i)
-                    break
-                end
-            end
-            return Characters
-        end
-
-        local function Attack(Tool, TouchPart, ToTouch)
-            if Tool:IsDescendantOf(workspace) then
-                Tool:Activate()
-                firetouchinterest(TouchPart, ToTouch, 1)
-                firetouchinterest(TouchPart, ToTouch, 0)
-            end
-        end
-
-        table.insert(getgenv().configs.connections, Disable.Event:Connect(function()
-            Run = false
-        end))
-
-        while Run do
-            local char = getchar()
-            if IsAlive(gethumanoid(char)) then
-                local Tool = char and char:FindFirstChildWhichIsA("Tool")
-                local TouchInterest = Tool and GetTouchInterest(Tool)
-
-                if TouchInterest then
-                    local TouchPart = TouchInterest.Parent
-                    local Characters = GetCharacters(char)
-                    Ignorelist.FilterDescendantsInstances = Characters
-                    local InstancesInBox = workspace:GetPartBoundsInBox(TouchPart.CFrame, TouchPart.Size + getgenv().configs.Size, Ignorelist)
-
-                    for _, v in pairs(InstancesInBox) do
-                        local Character = v:FindFirstAncestorWhichIsA("Model")
-                        if table.find(Characters, Character) then
-                            if getgenv().configs.DeathCheck and IsAlive(gethumanoid(Character)) then
-                                Attack(Tool, TouchPart, v)
-                            elseif not getgenv().configs.DeathCheck then
-                                Attack(Tool, TouchPart, v)
-                            end
-                        end
-                    end
-                end
-            end
-            RunService.Heartbeat:Wait()
-        end
+    Callback = function(newThickness)
+    if isAiming then
+        FOVring.Thickness = newThickness
     else
-        local Disable = getgenv().configs.Disable
-        if Disable then
-            Disable:Fire()
-            Disable:Destroy()
-        end
-
-        for _, connection in pairs(getgenv().configs.connections) do
-            connection:Disconnect()
-        end
-        table.clear(getgenv().configs.connections)
-        Run = false
+        removeFOVring() 
     end
-    
-WindUI:Notify({
-            Title = "HB FXM：",
-            Content = state and "已开启" or "已关闭",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
+    end
+})
+
+Dropdown = TabHandles.E:Dropdown({
+    Title = "自瞄玩家身体部位", 
+    Values = {"头", "胸", "左手", "右手", "左腿", "右腿"}, 
+    Value = "请选择", 
+    Callback = function(Value) 
+    if isAiming then
+        local partMap = {
+            ["头"] = "Head",
+            ["胸"] = "UpperTorso",
+            ["左手"] = "LeftHand",
+            ["右手"] = "RightHand",
+            ["左腿"] = "LeftFoot",
+            ["右腿"] = "RightFoot"
+        }
+        targetPart = partMap[Value] 
+    end
+end
+})
+
+Dropdown = TabHandles.E:Dropdown({
+    Title = "自瞄圈颜色", 
+    Values = {"红色", "黄色", "绿色", "蓝色", "紫色", "橙色", "黑色"}, 
+    Value = "请选择", 
+    Callback = function(Value) 
+    if isAiming then
+        local colorMap = {
+            ["红色"] = Color3.fromRGB(255, 0, 0),
+            ["黄色"] = Color3.fromRGB(255, 255, 0),
+            ["绿色"] = Color3.fromRGB(0, 255, 0),
+            ["蓝色"] = Color3.fromRGB(0, 0, 255),
+            ["紫色"] = Color3.fromRGB(128, 0, 128),
+            ["橙色"] = Color3.fromRGB(255, 165, 0),
+            ["黑色"] = Color3.fromRGB(0, 0, 0)
+        }
+        FOVring.Color = colorMap[Value]
+    else
+        removeFOVring() 
+    end
+end
 })
 
 Button = TabHandles.ER:Button({
