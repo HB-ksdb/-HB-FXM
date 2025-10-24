@@ -22,7 +22,7 @@ gui.IgnoreGuiInset = true  -- 确保全屏覆盖
 gui.Parent = player:WaitForChild("PlayerGui")
 
 -- ================ 要加载的脚本URL（在这里修改你的脚本地址） ================
-local SCRIPT_URL = "https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/4.HB%20FXM%20%E6%A3%80%E6%B5%8B%E6%9C%8D%E5%8A%A1%E5%99%A8.lua"
+local SCRIPT_URL = "https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/%E4%B8%BBHB%20FXM%20.txt"
 
 -- 创建全屏弹窗函数
 local function createFullscreenAnnouncement()
@@ -66,7 +66,7 @@ local function createFullscreenAnnouncement()
     countdownLabel.Size = UDim2.new(1, 0, 0.05, 0)
     countdownLabel.Position = UDim2.new(0, 0, 0.7, 0)
     countdownLabel.BackgroundTransparency = 1
-    countdownLabel.Text = "4秒后自动加载脚本..."
+    countdownLabel.Text = "3秒后自动加载脚本..."
     countdownLabel.TextColor3 = Color3.new(0.7, 0.7, 1)
     countdownLabel.TextScaled = true
     countdownLabel.Font = Enum.Font.Gotham
@@ -199,7 +199,7 @@ local function createFullscreenAnnouncement()
 
     -- 倒计时功能
     spawn(function()
-        local countdown = 4
+        local countdown = 3
         while countdown > 0 do
             countdownLabel.Text = countdown .. "秒后自动加载脚本..."
             wait(1)
@@ -209,7 +209,7 @@ local function createFullscreenAnnouncement()
 
     -- 4秒后自动消失并加载脚本
     spawn(function()
-        wait(4)  -- 显示4秒
+        wait(3)  -- 显示4秒
         
         local exitTween = playExitAnimation()
         exitTween.Completed:Wait()  -- 等待动画完成
@@ -241,4 +241,4 @@ end
 -- 创建全屏弹窗
 createFullscreenAnnouncement()
 
-print(" HB FXM全屏弹窗已启动，4秒后自动加载脚本")
+print("全屏弹窗已启动，3秒后自动加载脚本")
