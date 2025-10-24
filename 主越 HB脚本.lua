@@ -407,7 +407,7 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Paragraph = TabHandles.Ql:Paragraph({
+Paragraph = TabHandles.QI:Paragraph({
     Title = "［脚本选择］",
     Desc = "Test Paragraph",
     Image = "rbxassetid://85415543091211",
@@ -459,6 +459,35 @@ Paragraph = TabHandles.Ql:Paragraph({
         },
     }
 })
+
+for _,i in next, { "Default", "Red", "Orange", "Green", "Blue", "Grey", "White" } do
+    Tabs.ParagraphTab:Paragraph({
+        Title = i,
+        Desc = "Paragraph with color",
+        Image = "bird",
+        Color = i ~= "Default" and i or nil,
+        Buttons = {
+            {
+                Title = "Button 1",
+                Variant = "Primary",
+                Callback = function() print("1 Button") end,
+                Icon = "bird",
+            },
+            {
+                Title = "Button 2",
+                Variant = "Primary",
+                Callback = function() print("2 Button") end,
+                Icon = "bird",
+            },
+            {
+                Title = "Button 3",
+                Variant = "Primary",
+                Callback = function() print("3 Button") end,
+                Icon = "bird",
+            },
+        }
+    })
+end
 
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
