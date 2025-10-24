@@ -407,87 +407,76 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Paragraph = TabHandles.QI:Paragraph({
-    Title = "［脚本选择］",
-    Desc = "Test Paragraph",
-    Image = "rbxassetid://85415543091211",
-    ImageSize = 34, -- default 30
-    Thumbnail = "rbxassetid://85415543091211",
-    ThumbnailSize = 120, -- Thumbnail height
-    Buttons = {
-        {
-            Title = "［DOORS］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))() end,
-            Icon = "bird",
-        },
-        {
-            Title = "［自然灾害］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))() end,
-            Icon = "bird",
-        },
-        {
-            Title = "［战争大亨］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))() end,
-            Icon = "bird",
-        },   
-        {
-            Title = "［忍者传奇］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()) end,
-            Icon = "bird",
-        },
-        {
-            Title = "［力量传奇］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))() end,
-            Icon = "bird",
-        },
-        {
-            Title = "［极速传奇］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))() end,
-            Icon = "bird",    
-                    },
-        {
-            Title = "［环山军区］",
-            Variant = "Primary",
-            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))() end,
-            Icon = "bird",
-        },
-    }
-})
+Section = TabHandles.QI:Section({ Title = "脚本最多只能选一次选完不能再选了" })
 
-for _,i in next, { "Default", "Red", "Orange", "Green", "Blue", "Grey", "White" } do
-    Tabs.ParagraphTab:Paragraph({
-        Title = i,
-        Desc = "Paragraph with color",
-        Image = "bird",
-        Color = i ~= "Default" and i or nil,
-        Buttons = {
-            {
-                Title = "Button 1",
-                Variant = "Primary",
-                Callback = function() print("1 Button") end,
-                Icon = "bird",
-            },
-            {
-                Title = "Button 2",
-                Variant = "Primary",
-                Callback = function() print("2 Button") end,
-                Icon = "bird",
-            },
-            {
-                Title = "Button 3",
-                Variant = "Primary",
-                Callback = function() print("3 Button") end,
-                Icon = "bird",
-            },
-        }
-    })
-end
+Button = TabHandles.QI:Button({
+    Title = "［脚本选择］",
+    Callback = function()
+        Window:Dialog({
+            Title = "请选择",
+            Content = "［HB FXM］",
+            Icon = "bird",
+            Buttons = {
+                {
+                    Title = "［DOORS］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［自然灾害］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［战争大亨］",
+                    Icon = "bird",
+                    Variant = "Secondary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［忍者传奇］",
+                    Icon = "bird",
+                    Variant = "Primary",
+                    Callback = function() 
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［力量传奇］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［极速传奇］",
+                    Icon = "bird",
+                    Variant = "Secondary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
+                    end,
+                },
+                {
+                    Title = "［环山军区］",
+                    Icon = "bird",
+                    Variant = "Primary",
+                    Callback = function() 
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,                    
+                }
+            }
+        })
+    end,
+})
 
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
