@@ -21,7 +21,7 @@ if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhook
     while true do end
 end
 -- ================  ================
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local WindUI = loadstring(game:HttpGet(" https://github.com/Footagesus/WindUI/releases/download/1.6.41/main.lua"))()
 -- ================ 1.5.弹窗窗口显示 ================
         WindUI:Popup({
             Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
@@ -58,7 +58,6 @@ local Window = WindUI:CreateWindow({
         Folder = "CloudHub",
         Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
-        Theme = "Midnight",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -77,6 +76,7 @@ local Window = WindUI:CreateWindow({
             Color = ColorSequence.new(Color3.fromHex("#ff0000"), Color3.fromHex("#ffc0cb")),
             Draggable = true
         })
+
 
 -- ================ 标题 ================
 

@@ -134,7 +134,7 @@ Heartbeat:Connect(HeartbeatUpdate)
 
 
 -- ================  ================
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local WindUI = loadstring(game:HttpGet(" https://github.com/Footagesus/WindUI/releases/download/1.6.41/main.lua"))()
 -- ================ 1.5.弹窗窗口显示 ================
         WindUI:Popup({
             Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
@@ -171,7 +171,6 @@ local Window = WindUI:CreateWindow({
         Folder = "CloudHub",
         Size = UDim2.fromOffset(400, 300),-- = 背景大小 =
         Transparent = true,
-        Theme = "Midnight",
         User = {
             Enabled = true,
             Callback = function() print("clicked") end,
@@ -1172,7 +1171,7 @@ WindUI:Notify({
 
 Button = TabHandles.YI:Button({
     Title = "甩飞所有人",
-    Desc = "",
+    Desc = "78",
     Locked = false,
     Callback = function()
         loadstring(game:HttpGet("https://pastebin.com/raw/GnvPVBEi"))()
@@ -1187,7 +1186,22 @@ WindUI:Notify({
  end
 })
 
-
+Button = TabHandles.YI:Button({
+    Title = "断腿+无头",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet(" https://rawscripts.net/raw/Universal-Script-Permanent-Headless-And-korblox-Script-4140",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
 
 -- =  =
 -- ================  ================-- =  =
