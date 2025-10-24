@@ -254,13 +254,13 @@ local Tabs = {
 
 local TabHandles = {
     Y = Tabs.HB:Tab({ Title = "信息", Icon = "atom" }),    
-    QI = Tabs.HB:Tab({ Title = "脚本选择", Icon = "atom" }),            
+    QI = Tabs.HB:Tab({ Title = "HB FXM脚本", Icon = "atom" }),            
     YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
     Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
     E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "lock", Desc = "This tab is locked", Locked = true }),
     ER = Tabs.xx:Tab({ Title = "加入服务器", Icon = "chart-bar-big" }),            
     SAN = Tabs.gn:Tab({ Title = "自定义UI", Icon = "expand" }),    
-    XX = Tabs.gn:Tab({ Title = "UI.2", Icon = "expand" }),        
+    XX = Tabs.Main:Tab({ Title = "UI.2", Icon = "lock", Desc = "This tab is locked", Locked = true }),
 }
 
 
@@ -407,75 +407,58 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Button = TabHandles.QI:Button({
+Paragraph = TabHandles.Ql:Paragraph({
     Title = "［脚本选择］",
-    Callback = function()
-        Window:Dialog({
-            Title = "请选择",
-            Content = "［HB FXM］",
+    Desc = "Test Paragraph",
+    Image = "rbxassetid://85415543091211",
+    ImageSize = 34, -- default 30
+    Thumbnail = "rbxassetid://85415543091211",
+    ThumbnailSize = 120, -- Thumbnail height
+    Buttons = {
+        {
+            Title = "［DOORS］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))() end,
             Icon = "bird",
-            Buttons = {
-                {
-                    Title = "［DOORS］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［自然灾害］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［战争大亨］",
-                    Icon = "bird",
-                    Variant = "Secondary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［忍者传奇］",
-                    Icon = "bird",
-                    Variant = "Primary",
-                    Callback = function() 
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［力量传奇］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［极速传奇］",
-                    Icon = "bird",
-                    Variant = "Secondary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［环山军区］",
-                    Icon = "bird",
-                    Variant = "Primary",
-                    Callback = function() 
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,                    
-                }
-            }
-        })
-    end,
+        },
+        {
+            Title = "［自然灾害］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))() end,
+            Icon = "bird",
+        },
+        {
+            Title = "［战争大亨］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))() end,
+            Icon = "bird",
+        },   
+        {
+            Title = "［忍者传奇］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()) end,
+            Icon = "bird",
+        },
+        {
+            Title = "［力量传奇］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))() end,
+            Icon = "bird",
+        },
+        {
+            Title = "［极速传奇］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))() end,
+            Icon = "bird",    
+                    },
+        {
+            Title = "［环山军区］",
+            Variant = "Primary",
+            Callback = function() loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))() end,
+            Icon = "bird",
+        },
+    }
 })
-
 
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
@@ -2074,6 +2057,8 @@ Players.PlayerRemoving:Connect(function(player)
     end
 end)
 
+TabHandles.Q:Section({ Title = "ESP.1" })
+
 Toggle = TabHandles.Q:Toggle({
     Title = "透视开启", 
     Value = false, 
@@ -2257,6 +2242,8 @@ Players.PlayerAdded:Connect(function(player)
 end)
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 -- ================  ================
+TabHandles.Q:Section({ Title = "ESP.2" })
+
 TabHandles.Q:Paragraph({
     Title = "透视配置",
     Desc = "设置",
@@ -2330,288 +2317,20 @@ Toggle = TabHandles.Q:Toggle({
 
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =    
-local isAiming = false
-local isPredicting = false 
-local isLowHealthPriority = false
-local fov = 50 
-local plr = game:GetService("Players").LocalPlayer
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local Cam = workspace.CurrentCamera
 
 
-local FOVring = Drawing.new("Circle")
-FOVring.Visible = false
-FOVring.Thickness = 2
-FOVring.Color = Color3.fromRGB(255, 0, 0)
-FOVring.Filled = false
-FOVring.Radius = fov
-FOVring.Position = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
 
 
-local targetPart = "Head"
 
 
-local function updateDrawings()
-    FOVring.Position = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
-end
 
 
-local function removeFOVring()
-    FOVring.Visible = false
-end
 
 
-local function lookAt(target)
-    local lookVector = (target - Cam.CFrame.Position).Unit
-    local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
-    Cam.CFrame = newCFrame
-end
 
-
-local function getClosestPlayerInFOV()
-    local nearest = nil
-    local last = math.huge
-    local lowestHealthPlayer = nil
-    local lowestHealth = math.huge
-    local playerMousePos = Vector2.new(Cam.ViewportSize.X / 2, Cam.ViewportSize.Y / 2)
-
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= plr then
-            local character = player.Character
-            if character and character:FindFirstChild(targetPart) then
-                local part = character[targetPart]
-                local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
-                local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-
-                if distance < last and isVisible and distance < fov then
-                    last = distance
-                    nearest = player
-                end
-
-                
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-                if humanoid and humanoid.Health > 0 then
-                    if humanoid.Health < lowestHealth then
-                        lowestHealth = humanoid.Health
-                        lowestHealthPlayer = player
-                    end
-                end
-            end
-        end
-    end
-
-    
-    if isLowHealthPriority and lowestHealthPlayer then
-        return lowestHealthPlayer
-    end
-
-    return nearest
-end
-
-
-local function predictNextPosition(player, deltaTime)
-    local character = player.Character
-    if not character or not character:FindFirstChild(targetPart) then return end
-
-    local part = character[targetPart]
-    local velocity = part.Velocity
-    local nextPosition = part.Position + velocity * deltaTime * 1.2 
-    return nextPosition
-end
-
-
-local function toggleAiming(v)
-    if v then 
-        isAiming = true
-        FOVring.Visible = true
-
-        
-        targetPart = "Head"
-
-        
-        FOVring.Connection = RunService.RenderStepped:Connect(function(dt)
-            updateDrawings()
-            local closest = getClosestPlayerInFOV()
-            if closest and closest.Character and closest.Character:FindFirstChild(targetPart) then
-                local targetPosition = closest.Character[targetPart].Position
-                if isPredicting then
-                    targetPosition = predictNextPosition(closest, dt)
-                end
-                lookAt(targetPosition)
-            end
-        end)
-    else 
-        isAiming = false
-        FOVring.Visible = false
-
-       
-        if FOVring.Connection then
-            FOVring.Connection:Disconnect()
-            FOVring.Connection = nil
-        end
-
-        
-        Cam.CFrame = workspace.CurrentCamera.CFrame
-
-        
-        targetPart = nil 
-    end
-end
-
-
-local function togglePredicting(v)
-    isPredicting = v
-end
-
-
-local function toggleLowHealthPriority(v)
-    isLowHealthPriority = v
-end
 
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
-
-Toggle = TabHandles.E:Toggle({
-    Title = "自瞄 (开/关)",
-    Desc = "",
-    Locked = false,
-    Callback = function(v)
-    toggleAiming(v)
-    
-WindUI:Notify({
-            Title = "HB FXM 中心：",
-            Content = state and "已开启FOV" or "已关闭FOV",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Toggle = TabHandles.E:Toggle({
-    Title = "预判自瞄 (开/关)",
-    Desc = "",
-    Locked = false,
-    Callback = function(v)
-    togglePredicting(v)
-    
-WindUI:Notify({
-            Title = "HB FXM：",
-            Content = state and "已开启启动" or "已关闭禁用自瞄",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Toggle = TabHandles.Q:Toggle({
-    Title = "优先瞄准血量低的玩家 (开/关)",
-    Desc = "",
-    Locked = false,
-    Callback = function()
-    toggleLowHealthPriority(v)
-    
-WindUI:Notify({
-            Title = "脚本中心：",
-            Content = state and "已开启" or "已关闭",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })    
- end
-})
-
-Slider = TabHandles.E:Slider({
-    Title = "FOV厚度",
-    Value = {
-        Min = 1,
-        Max = 10,
-        Default = 1,
-    },
-    Increment = 1,
-    Callback = function(value)
-    bin.fovthickness = value
-    updateFOV()
-    end
-})
-
-Slider = TabHandles.E:Slider({
-    Title = "FOV大小",
-    Value = {
-        Min = 1,
-        Max = 100,
-        Default = 1,
-    },
-    Increment = 1,
-    Callback = function(newFOV)
-    fov = newFOV
-    if isAiming then
-        FOVring.Radius = fov
-    else
-        removeFOVring() 
-    end
- end
-})
-
-Slider = TabHandles.E:Slider({
-    Title = "自瞄圈厚度",
-    Value = {
-        Min = 1,
-        Max = 50,
-        Default = 1,
-    },
-    Increment = 1,
-    Callback = function(newThickness)
-    if isAiming then
-        FOVring.Thickness = newThickness
-    else
-        removeFOVring() 
-    end
-    end
-})
-
-Dropdown = TabHandles.E:Dropdown({
-    Title = "自瞄玩家身体部位", 
-    Values = {"头", "胸", "左手", "右手", "左腿", "右腿"}, 
-    Value = "请选择", 
-    Callback = function(Value) 
-    if isAiming then
-        local partMap = {
-            ["头"] = "Head",
-            ["胸"] = "UpperTorso",
-            ["左手"] = "LeftHand",
-            ["右手"] = "RightHand",
-            ["左腿"] = "LeftFoot",
-            ["右腿"] = "RightFoot"
-        }
-        targetPart = partMap[Value] 
-    end
-end
-})
-
-Dropdown = TabHandles.E:Dropdown({
-    Title = "自瞄圈颜色", 
-    Values = {"红色", "黄色", "绿色", "蓝色", "紫色", "橙色", "黑色"}, 
-    Value = "请选择", 
-    Callback = function(Value) 
-    if isAiming then
-        local colorMap = {
-            ["红色"] = Color3.fromRGB(255, 0, 0),
-            ["黄色"] = Color3.fromRGB(255, 255, 0),
-            ["绿色"] = Color3.fromRGB(0, 255, 0),
-            ["蓝色"] = Color3.fromRGB(0, 0, 255),
-            ["紫色"] = Color3.fromRGB(128, 0, 128),
-            ["橙色"] = Color3.fromRGB(255, 165, 0),
-            ["黑色"] = Color3.fromRGB(0, 0, 0)
-        }
-        FOVring.Color = colorMap[Value]
-    else
-        removeFOVring() 
-    end
-end
-})
 
 Button = TabHandles.ER:Button({
     Title = "加入极速传奇",
@@ -2870,36 +2589,17 @@ else
         Color = "White"
     })
 end
--- ================  ================
 
-local HttpService = game:GetService("HttpService")
+TabHandles.SAN:Colorpicker({
+    Title = "颜色1",
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(color) print("Selected color: " .. tostring(color)) end
+})
 
-local folderPath = "UI"
-makefolder(folderPath)
+TabHandles.SAN:Colorpicker({
+    Title = "颜色2",
+    Default = Color3.fromRGB(0, 0, 255),
+    Transparency = 0,
+    Callback = function(color) print("Background color: " .. tostring(color)) end
+})
 
-local function SaveFile(fileName, data)
-    local filePath = folderPath .. "/" .. fileName .. ".json"
-    local jsonData = HttpService:JSONEncode(data)
-    writefile(filePath, jsonData)
-end
-
-local function LoadFile(fileName)
-    local filePath = folderPath .. "/" .. fileName .. ".json"
-    if isfile(filePath) then
-        local jsonData = readfile(filePath)
-        return HttpService:JSONDecode(jsonData)
-    end
-end
-
-local function ListFiles()
-    local files = {}
-    for _, file in ipairs(listfiles(folderPath)) do
-        local fileName = file:match("([^/]+)%.json$")
-        if fileName then
-            table.insert(files, fileName)
-        end
-    end
-    return files
-end
-
-Section = TabHandles.XX:Section({({ Title = "UI" })
