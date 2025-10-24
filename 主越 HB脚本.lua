@@ -407,14 +407,13 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Section = TabHandles.QI:Section({ Title = "脚本最多只能选一次选完不能再选了" })
+Section = TabHandles.QI:Section({ Title = "你启动了多次脚本你把它关闭后，你再选择后选择不了了" })
 
 Button = TabHandles.QI:Button({
     Title = "［脚本选择］",
     Callback = function()
         Window:Dialog({
             Title = "请选择",
-            Content = "［HB FXM］",
             Icon = "bird",
             Buttons = {
                 {
@@ -436,7 +435,7 @@ Button = TabHandles.QI:Button({
                 {
                     Title = "［战争大亨］",
                     Icon = "bird",
-                    Variant = "Secondary",
+                    Variant = "Tertiary",
                     Callback = function()
                         loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
                     end,
@@ -444,7 +443,7 @@ Button = TabHandles.QI:Button({
                 {
                     Title = "［忍者传奇］",
                     Icon = "bird",
-                    Variant = "Primary",
+                    Variant = "Tertiary",
                     Callback = function() 
                         loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
                     end,
@@ -460,7 +459,7 @@ Button = TabHandles.QI:Button({
                 {
                     Title = "［极速传奇］",
                     Icon = "bird",
-                    Variant = "Secondary",
+                    Variant = "Tertiary",
                     Callback = function()
                         loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
                     end,
@@ -468,10 +467,14 @@ Button = TabHandles.QI:Button({
                 {
                     Title = "［环山军区］",
                     Icon = "bird",
-                    Variant = "Primary",
+                    Variant = "Tertiary",
                     Callback = function() 
                         loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,                    
+                    end,
+                },    
+                {
+                    Title = "关闭",
+                    Variant = "Primary"                
                 }
             }
         })
