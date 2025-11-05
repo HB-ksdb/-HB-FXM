@@ -521,6 +521,31 @@ Button = TabHandles.QI:Button({
     end,
 })
 
+Button = TabHandles.QI:Button({
+    Title = "［脚本选择2］",
+    Callback = function()
+        Window:Dialog({
+            Title = "请选择2",
+            Icon = "bird",
+            Buttons = {
+                {
+                    Title = "［巴掌模拟器］",
+                    Icon = "bird",
+                    Variant = "Tertiary",
+                    Callback = function()
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/9.HB%20FXM%20%E5%B7%B4%E6%8E%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%8A%A0%E5%AF%86.txt",true))()
+                    end,
+                },    
+                {
+                    Title = "关闭",
+                    Variant = "Primary"                
+                }
+            }
+        })
+    end,
+})
+
+
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
     Title = "跳跃",
@@ -1132,35 +1157,41 @@ Toggle = TabHandles.YI:Toggle({
     Desc = "点击加载",
     Locked = false,
     Callback = function(Value)
-    if Value then
-      Noclip = true
-      Stepped = game.RunService.Stepped:Connect(function()
-        if Noclip == true then
-          for a, b in pairs(game.Workspace:GetChildren()) do
-            if b.Name == game.Players.LocalPlayer.Name then
-              for i, v in pairs(game.Workspace[game.Players.LocalPlayer.Name]:GetChildren()) do
-                if v:IsA("BasePart") then
-                  v.CanCollide = false
+            if Value then
+                Noclip = true
+                Stepped = game:GetService("RunService").Stepped:Connect(function()
+                    if Noclip == true then
+                        for a, b in pairs(game:GetService("Workspace"):GetChildren()) do
+                            if b.Name == game.Players.LocalPlayer.Name then
+                                for i, v in pairs(game:GetService("Workspace")[game.Players.LocalPlayer.Name]:GetChildren()) do
+                                    if v:IsA("BasePart") then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        Stepped:Disconnect()
+                    end
+                end)
+                Notification:Notify(
+                    {Title = "穿墙模式", Description = "穿墙模式已启用"},
+                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
+                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
+                )
+            else
+                Noclip = false
+                if Stepped then
+                    Stepped:Disconnect()
                 end
-              end
+                Notification:Notify(
+                    {Title = "穿墙模式", Description = "穿墙模式已禁用"},
+                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
+                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
+                )
             end
-          end
-         else
-          Stepped:Disconnect()
         end
-      end)
-     else
-      Noclip = false
-    end
-    WindUI:Notify({
-            Title = "脚本中心：",
-            Content = state and "已开启穿墙" or "已关闭穿墙",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })
- end
-})
+    })
 -- =  =
 -- ================  ================
 
@@ -1429,7 +1460,24 @@ WindUI:Notify({
 })
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
+Button = TabHandles.YI:Button({
+    Title = "飞车（BS）",
+    Desc = "飞飞飞",
+    Locked = false,
+    Callback = function()
+    
+loadstring(game:HttpGet("https://pastebin.com/raw/gNqZiexm"))()
 
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
 
 
 
