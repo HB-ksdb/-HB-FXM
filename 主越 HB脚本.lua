@@ -406,6 +406,47 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
+local InviteCode = "bYb3EweNk7"
+local DiscordAPI = "https://discord.com/api/v10/invites/" .. InviteCode .. "?with_counts=true&with_expiration=true"
+
+local Response = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
+    Url = DiscordAPI,
+    Method = "GET",
+    Headers = {
+        ["User-Agent"] = "RobloxBot/1.0",
+        ["Accept"] = "application/json"
+    }
+}).Body)
+
+if Response and Response.guild then
+    Paragraph = TabHandles.QI:Paragraph({
+        Title = Response.guild.name,
+        Desc = 
+            ' <font color="#52525b">�</font> 总人数 : ' .. tostring(Response.approximate_member_count) .. 
+            '\n <font color="#16a34a">�</font> 在线人数 : ' .. tostring(Response.approximate_presence_count)
+        ,
+        Image = "https://cdn.discordapp.com/icons/" .. Response.guild.id .. "/" .. Response.guild.icon .. ".png?size=1024",
+        ImageSize = 42,
+    })
+
+Button = TabHandles.QI:Button({
+        Title = "English/英文",
+        Callback = function()
+            local UpdatedResponse = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
+                Url = DiscordAPI,
+                Method = "GET",
+            }).Body)
+            
+            if UpdatedResponse and UpdatedResponse and UpdatedResponse.guild then
+                DiscordInfo:SetDesc(
+                    ' <font color="#52525b">�</font> Member Count : ' .. tostring(UpdatedResponse.approximate_member_count) .. 
+                    '\n <font color="#16a34a">�</font> Online Count : ' .. tostring(UpdatedResponse.approximate_presence_count)
+                )
+            end
+        end
+    })
+end
+
 Section = TabHandles.QI:Section({ Title = "你启动了多次脚本你把它关闭后，你再选择后选择不了了" })
 
 Button = TabHandles.QI:Button({
