@@ -521,30 +521,6 @@ Button = TabHandles.QI:Button({
     end,
 })
 
-Button = TabHandles.QI:Button({
-    Title = "［脚本选择2］",
-    Callback = function()
-        Window:Dialog({
-            Title = "请选择2",
-            Icon = "bird",
-            Buttons = {
-                {
-                    Title = "［巴掌模拟器］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/9.HB%20FXM%20%E5%B7%B4%E6%8E%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },    
-                {
-                    Title = "关闭",
-                    Variant = "Primary"                
-                }
-            }
-        })
-    end,
-})
-
 
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
