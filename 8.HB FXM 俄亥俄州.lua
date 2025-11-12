@@ -1,3 +1,25 @@
+function Antihook()
+    return "Hook"
+end
+
+hookfunction(Antihook, function()
+    return "No Hook"
+end)
+
+hookfunction(game.HttpGet, print)
+
+if not isfunctionhooked(Antihook) or not isfunctionhooked(game.HttpGet) then
+    game:shutdown("别搞我")
+    while true do end
+end
+
+restorefunction(game.HttpGet)
+
+if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhooked(tostring) then
+    game:shutdown("666")
+    while true do end
+end
+
 local Ohio = {
     Csh = false,
     MB = false,
