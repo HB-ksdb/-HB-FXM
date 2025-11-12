@@ -149,21 +149,10 @@ local function Sld(tab, title, min, max, default, callback)
     return tab:Slider({Title = title, Step = 1, Value = {Min = min, Max = max, Default = default}, Callback = callback})
 end
 
-local A = AddTab(LockSection, "传送/功能", "rbxassetid://3944688398")
-local B = AddTab(LockSection, "自动/保险", "rbxassetid://4450736564")
-local C = AddTab(LockSection, "子追/范围", "rbxassetid://104955103991281")
-local D = AddTab(LockSection, "透视/绘制", "rbxassetid://4483362458")
-local E = AddTab(LockSection, "", "rbxassetid://4483345998")
-
-local FunSection = Window:Section({
-    Title = "2.功能",
-    Opened = true,
-})
-
-local F = AddTab(FunSection, "", "rbxassetid://4384392464")
-local G = AddTab(FunSection, "", "rbxassetid://94831304996747")
-local H = AddTab(FunSection, "", "rbxassetid://4335480896")
-local I = AddTab(FunSection, "", "rbxassetid://4483345998")
+local A = AddTab(LockSection, "传送/功能", "rbxassetid://")
+local B = AddTab(LockSection, "自动/保险", "rbxassetid://")
+local C = AddTab(LockSection, "子追/范围", "rbxassetid://")
+local D = AddTab(LockSection, "透视/绘制", "rbxassetid://")
 
 Window:SelectTab(1)
 
