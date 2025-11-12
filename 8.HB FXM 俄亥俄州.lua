@@ -1,103 +1,3 @@
-function Antihook()
-    return "Hook"
-end
-
-hookfunction(Antihook, function()
-    return "No Hook"
-end)
-
-hookfunction(game.HttpGet, print)
-
-if not isfunctionhooked(Antihook) or not isfunctionhooked(game.HttpGet) then
-    game:shutdown("别搞我")
-    while true do end
-end
-
-restorefunction(game.HttpGet)
-
-if isfunctionhooked(game.HttpGet) or isfunctionhooked(request) or isfunctionhooked(tostring) then
-    game:shutdown("666")
-    while true do end
-end
-
-local Ohio = {
-    Csh = false,
-    MB = false,
-    NameSet = false,
-    DistanceSet = false,
-    HealthSet = false,
-    H_Money = false,
-    H_ATM = false,
-    KillAura = false,
-    Aura = false,
-    Speedtb = 0,
-    Toggletb = false,
-    HipHeightValue = 1.5,
-    HipHeightEnabled = false,
-    SelectedPlayer = nil
-}
-
-local function OhioOutline(part, color, enabled)
-    local hl = part:FindFirstChild("Highlight")
-    if not hl then
-        local HL = Instance.new("Highlight", part)
-        HL.FillTransparency = 1
-        HL.OutlineTransparency = 0
-        HL.OutlineColor = color
-        HL.Enabled = enabled
-    else
-        local HL = hl
-        HL.OutlineColor = color
-        HL.Enabled = enabled
-    end
-end
-
-local function OhioAddESP(part, color, text, enabled, ttf)
-    local bg = part:FindFirstChild("BillboardGui")
-    if not bg then
-        local BG = Instance.new("BillboardGui", workspace)
-        BG.AlwaysOnTop = true
-        BG.Size = UDim2.new(0, 100, 0, 50)
-        BG.StudsOffset = Vector3.new(0, 1.4, 0)
-        BG.Enabled = enabled
-        local TL = Instance.new("TextLabel", BG)
-        TL.BackgroundTransparency = 1
-        TL.Size = UDim2.new(0, 100, 0, 50)
-        TL.FontFace = Font.fromId(ttf or 12187376739)
-        TL.Text = text
-        TL.TextSize = 10
-        TL.TextColor3 = color
-        TL.Parent = BG
-        BG.Parent = part
-    else
-        local BG = bg
-        local TL = BG:FindFirstChild("TextLabel")
-        TL.Text = text
-        TL.TextColor3 = color
-        BG.Enabled = enabled
-    end
-end
-
-local OhioPlayers = {}
-for _, player in ipairs(Players:GetPlayers()) do
-    if not table.find(OhioPlayers, player.Name) then
-        table.insert(OhioPlayers, player.Name)
-    end
-end
-
-Players.PlayerAdded:Connect(function(player)
-    if not table.find(OhioPlayers, player.Name) then
-        table.insert(OhioPlayers, player.Name)
-    end
-end)
-
-Players.PlayerRemoving:Connect(function(player)
-    if table.find(OhioPlayers, player.Name) then
-        table.remove(OhioPlayers, table.find(OhioPlayers, player.Name))
-    end
-end)
-
-
 local WindUI = loadstring(game:HttpGet("  https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/%E4%BF%84%E4%BA%A5%E4%BF%84%E5%B7%9EUI.txt"))()
 -- ================ 2.Ul背景…… ================
 local Window = WindUI:CreateWindow({
@@ -859,6 +759,83 @@ paolu2 = function()
     end
     end
 end
+
+local Ohio = {
+    Csh = false,
+    MB = false,
+    NameSet = false,
+    DistanceSet = false,
+    HealthSet = false,
+    H_Money = false,
+    H_ATM = false,
+    KillAura = false,
+    Aura = false,
+    Speedtb = 0,
+    Toggletb = false,
+    HipHeightValue = 1.5,
+    HipHeightEnabled = false,
+    SelectedPlayer = nil
+}
+
+local function OhioOutline(part, color, enabled)
+    local hl = part:FindFirstChild("Highlight")
+    if not hl then
+        local HL = Instance.new("Highlight", part)
+        HL.FillTransparency = 1
+        HL.OutlineTransparency = 0
+        HL.OutlineColor = color
+        HL.Enabled = enabled
+    else
+        local HL = hl
+        HL.OutlineColor = color
+        HL.Enabled = enabled
+    end
+end
+
+local function OhioAddESP(part, color, text, enabled, ttf)
+    local bg = part:FindFirstChild("BillboardGui")
+    if not bg then
+        local BG = Instance.new("BillboardGui", workspace)
+        BG.AlwaysOnTop = true
+        BG.Size = UDim2.new(0, 100, 0, 50)
+        BG.StudsOffset = Vector3.new(0, 1.4, 0)
+        BG.Enabled = enabled
+        local TL = Instance.new("TextLabel", BG)
+        TL.BackgroundTransparency = 1
+        TL.Size = UDim2.new(0, 100, 0, 50)
+        TL.FontFace = Font.fromId(ttf or 12187376739)
+        TL.Text = text
+        TL.TextSize = 10
+        TL.TextColor3 = color
+        TL.Parent = BG
+        BG.Parent = part
+    else
+        local BG = bg
+        local TL = BG:FindFirstChild("TextLabel")
+        TL.Text = text
+        TL.TextColor3 = color
+        BG.Enabled = enabled
+    end
+end
+
+local OhioPlayers = {}
+for _, player in ipairs(Players:GetPlayers()) do
+    if not table.find(OhioPlayers, player.Name) then
+        table.insert(OhioPlayers, player.Name)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    if not table.find(OhioPlayers, player.Name) then
+        table.insert(OhioPlayers, player.Name)
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    if table.find(OhioPlayers, player.Name) then
+        table.remove(OhioPlayers, table.find(OhioPlayers, player.Name))
+    end
+end)
 
 
 
