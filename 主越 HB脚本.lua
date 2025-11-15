@@ -306,14 +306,6 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Paragraph = TabHandles.Y:Paragraph({
-    Title = "支持人",
-    Desc = "合作人：FXM 支持：小猫土豆 支持：小皮",
-    Image = "palette",
-    ImageSize = 45,
-    Color = "White"
-})
-
 -- ================ 你的账号用户名ID ================
 Paragraph = TabHandles.Y:Paragraph({
     Title = "您的用户名ID：",
@@ -399,29 +391,6 @@ Paragraph = TabHandles.Y:Paragraph({
     }}
 })
 
-Paragraph = TabHandles.R:Paragraph({
-    Title = "HB FXM",
-    Desc = "联邦为FXM，eee没什么好说的👽",
-    Image = "file-warning",
-    ImageSize = 45,
-    Color = ""
-})
-
-Paragraph = TabHandles.R:Paragraph({
-    Title = "HB FXM",
-    Desc = "群1055870765",
-    Image = "file-warning",
-    ImageSize = 45,
-    Color = ""
-})
-
-Paragraph = TabHandles.R:Paragraph({
-    Title = "HB FXM",
-    Desc = "还有一件事，更新服务器的话，我会放在这个脚本里面，不会放在其他的",
-    Image = "file-warning",
-    ImageSize = 45,
-    Color = ""
-})
 
 local InviteCode = "bYb3EweNk7"
 local DiscordAPI = "https://discord.com/api/v10/invites/" .. InviteCode .. "?with_counts=true&with_expiration=true"
@@ -445,6 +414,24 @@ if Response and Response.guild then
         Image = "https://cdn.discordapp.com/icons/" .. Response.guild.id .. "/" .. Response.guild.icon .. ".png?size=1024",
         ImageSize = 42,
     })
+
+    Tabs.Tests:Button({
+        Title = "Update Info",
+        Callback = function()
+            local UpdatedResponse = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
+                Url = DiscordAPI,
+                Method = "GET",
+            }).Body)
+            
+            if UpdatedResponse and UpdatedResponse and UpdatedResponse.guild then
+                DiscordInfo:SetDesc(
+                    ' <font color="#52525b">�</font> Member Count : ' .. tostring(UpdatedResponse.approximate_member_count) .. 
+                    '\n <font color="#16a34a">�</font> Online Count : ' .. tostring(UpdatedResponse.approximate_presence_count)
+                )
+            end
+        end
+    })
+end
 
 Section = TabHandles.QI:Section({ Title = "你启动了多次脚本你把它关闭后，你再选择后选择不了了" })
 
