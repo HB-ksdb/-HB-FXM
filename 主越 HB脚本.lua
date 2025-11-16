@@ -247,14 +247,14 @@ WindUI:Notify({
 local Tabs = {
     HB = Window:Section({ Title = "公告或脚本", Opened = true }),
     Main = Window:Section({ Title = "通用", Opened = true }),
-    xx = Window:Section({ Title = "服务器", Opened = true }),        
+    xx = Window:Section({ Title = "服务器/选择", Opened = true }),        
     gn = Window:Section({ Title = "UI自定义", Opened = true }),    
 }
 
 local TabHandles = {
     Y = Tabs.HB:Tab({ Title = "信息", Icon = "atom" }),    
     R = Tabs.HB:Tab({ Title = "通知", Icon = "atom" }),    
-    QI = Tabs.HB:Tab({ Title = "HB FXM脚本", Icon = "atom" }),            
+    QI = Tabs.HB:Tab({ Title = "HB FXM服务器", Icon = "atom" }),            
     YI = Tabs.Main:Tab({ Title = "功能通用", Icon = "atom" }),    
     Q = Tabs.Main:Tab({ Title = "透视功能", Icon = "cctv" }),        
     E = Tabs.Main:Tab({ Title = "自瞄功能", Icon = "lock", Desc = "This tab is locked", Locked = true }),
@@ -405,17 +405,17 @@ local Response = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Reques
 }).Body)
 
 if Response and Response.guild then
-    Paragraph = TabHandles.QI:Paragraph({
+    local Paragraph = TabHandles.QI:Paragraph({
         Title = Response.guild.name,
         Desc = 
-            ' <font color="#52525b">�</font> 总人数 : ' .. tostring(Response.approximate_member_count) .. 
+            ' <font color="#52525b">�</font> 服务器人数 : ' .. tostring(Response.approximate_member_count) .. 
             '\n <font color="#16a34a">�</font> 在线人数 : ' .. tostring(Response.approximate_presence_count)
         ,
         Image = "https://cdn.discordapp.com/icons/" .. Response.guild.id .. "/" .. Response.guild.icon .. ".png?size=1024",
         ImageSize = 42,
     })
 
-    Tabs.Tests:Button({
+Paragraph = TabHandles.QI:Paragraph({
         Title = "Update Info",
         Callback = function()
             local UpdatedResponse = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
@@ -433,79 +433,318 @@ if Response and Response.guild then
     })
 end
 
-Section = TabHandles.QI:Section({ Title = "你启动了多次脚本你把它关闭后，你再选择后选择不了了" })
+Section = TabHandles.QI:Section({ Title = "通用/自然灾害" })
 
 Button = TabHandles.QI:Button({
-    Title = "［脚本选择］",
+    Title = "指南针（可以用下面的地方显示不了地图）",
+    Desc = "要使用的话就必须买指南针",
+    Locked = false,
     Callback = function()
-        Window:Dialog({
-            Title = "请选择",
-            Icon = "bird",
-            Buttons = {
-                {
-                    Title = "［DOORS］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［自然灾害］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/5.HB%20FXM%20%E8%87%AA%E7%84%B6%E7%81%BE%E5%AE%B3%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［战争大亨］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［忍者传奇］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function() 
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［力量传奇］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［极速传奇］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function()
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
-                    end,
-                },
-                {
-                    Title = "［环山军区］",
-                    Icon = "bird",
-                    Variant = "Tertiary",
-                    Callback = function() 
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
-                    end,
-                },    
-                {
-                    Title = "关闭",
-                    Variant = "Primary"                
-                }
-            }
-        })
-    end,
+    
+local p = game.Players.LocalPlayer
+local r, c, h = game.ReplicatedStorage.Remotes.Compass, p.Backpack:WaitForChild("Compass"), p.Character:WaitForChild("Humanoid")
+h:EquipTool(c)
+task.wait()
+r:FireServer("Vote Map", 3)
+r:FireServer("Vote Map", 4)
+task.wait()
+h:UnequipTools()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
 })
+
+Button = TabHandles.QI:Button({
+    Title = "防甩飞",
+    Desc = "别人想甩飞你是不可能的",
+    Locked = false,
+    Callback = function()
+        local Services = setmetatable({}, {__index = function(Self, Index)
+local NewService = game.GetService(game, Index)
+if NewService then
+Self[Index] = NewService
+end
+return NewService
+end})
+
+local LocalPlayer = Services.Players.LocalPlayer
+
+local function PlayerAdded(Player)
+   local Detected = false
+   local Character;
+   local PrimaryPart;
+
+   local function CharacterAdded(NewCharacter)
+       Character = NewCharacter
+       repeat
+           wait()
+           PrimaryPart = NewCharacter:FindFirstChild("HumanoidRootPart")
+       until PrimaryPart
+       Detected = false
+   end
+
+   CharacterAdded(Player.Character or Player.CharacterAdded:Wait())
+   Player.CharacterAdded:Connect(CharacterAdded)
+   Services.RunService.Heartbeat:Connect(function()
+       if (Character and Character:IsDescendantOf(workspace)) and (PrimaryPart and PrimaryPart:IsDescendantOf(Character)) then
+           if PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 or PrimaryPart.AssemblyLinearVelocity.Magnitude > 100 then
+               if Detected == false then
+                   game.StarterGui:SetCore("ChatMakeSystemMessage", {
+                       Text = "Fling Exploit Detected Player : "..tostring(Player);
+                       Color = Color3.fromRGB(255, 200, 0);
+                   })
+               end
+               Detected = true
+               for i,v in ipairs(Character:GetDescendants()) do
+                   if v:IsA("BasePart") then
+                       v.CanCollide = false
+                       v.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+                       v.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+                       v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+                   end
+               end
+               PrimaryPart.CanCollide = false
+               PrimaryPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+               PrimaryPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+               PrimaryPart.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0)
+           end
+       end
+   end)
+end
+
+for i,v in ipairs(Services.Players:GetPlayers()) do
+   if v ~= LocalPlayer then
+       PlayerAdded(v)
+   end
+end
+Services.Players.PlayerAdded:Connect(PlayerAdded)            
+
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})
+    end
+})
+
+Button = TabHandles.QI:Button({
+    Title = "黑洞",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Super-ring-Parts-V6-28581"))()
+        
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 3, -- 3 seconds
+    Icon = "layout-grid",
+})        
+        
+    end
+})
+
+Button = TabHandles.QI:Button({
+    Title = "物理磁铁",
+    Desc = "可以把下面的东西吸上来可以踩",
+    Locked = false,
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/cytj777i/6669178/main/%E5%8D%95%E4%B8%80%E7%89%A9%E4%BD%93%E9%A3%9E%E8%A1%8C%E8%BD%BD%E8%87%AA%E5%B7%B1%E6%9C%80%E7%BB%88%E4%BC%98%E5%8C%96%E7%89%88"))()       
+        
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                                
+    end
+})
+
+Button = TabHandles.QI:Button({
+    Title = "无敌少侠",
+    Desc = "用了它，你就会变成城市超人",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Invinicible-Flight-R15-45414"))()
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+
+Button = TabHandles.QI:Button({
+    Title = "防止摔跤伤害",
+    Desc = "就算掉下去了，也毫发无伤，掉到水里面也会死的",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/cytj777i/Fall-injury/main/防止摔落伤害"))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+
+Toggle = TabHandles.QI:Toggle({
+    Title = "在水上行走",
+    Desc = "点击加载",
+    Locked = false,
+    Callback = function(bool)
+ if bool == false then do game.Workspace.WaterLevel.CanCollide = false
+                            game.Workspace.WaterLevel.Size = Vector3.new(10, 1, 10)
+                        end
+                    end
+                    if bool == true then do game.Workspace.WaterLevel.CanCollide = true
+                            game.Workspace.WaterLevel.Size = Vector3.new(5000, 1, 5000)
+                        end
+                    end
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "服务器选择/点击加载" })
+
+Button = TabHandles.QI:Button({
+    Title = "【DOORS】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/1.HB%20FXM%20DOORS%E5%8A%A0%E5%AF%86.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功DOORS",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "点击加载" })
+
+Button = TabHandles.:Button({
+    Title = "【战争大享】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/2.HB%20FXM%20%E6%88%98%E4%BA%89%E5%A4%A7%E4%BA%AB%E5%8A%A0%E5%AF%86.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功战争大享",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "点击加载" })
+
+Button = TabHandles.QI:Button({
+    Title = "【忍者传奇】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/7.HB%20FXM%20%E5%BF%8D%E8%80%85%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功忍者传奇",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "点击加载" })
+
+Button = TabHandles.QI:Button({
+    Title = "【力量传奇】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/6.HB%20FXM%20%E5%8A%9B%E9%87%8F%E4%BC%A0%E5%A5%87%E5%8A%A0%E5%AF%86.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功力量传奇",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "点击加载" })
+
+Button = TabHandles.:Button({
+    Title = "【极速传奇】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-4/main/%E6%9E%81%E9%80%9F%E4%BC%A0%E5%A5%87.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功极速传奇",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
+Section = TabHandles.QI:Section({ Title = "点击加载" })
+
+Button = TabHandles.QI:Button({
+    Title = "【环山军区】",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HB-ksdb/-HB-FXM/main/3.HB%20FXM%20%E7%8E%AF%E5%B1%B1%E5%86%9B%E5%8C%BA%E5%8A%A0%E5%AF%86.txt",true))()
+            
+WindUI:Notify({
+    Title = "通知",
+    Content = "加载成功环山军区",
+    Duration = 1, -- 3 seconds
+    Icon = "layout-grid",
+})                        
+            
+ end
+})
+TabHandles.QI:Divider()
+
 
 
 -- ================ 更改跳跃 ================
