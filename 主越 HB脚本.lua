@@ -416,7 +416,7 @@ if Response and Response.guild then
     })
 
 Paragraph = TabHandles.QI:Paragraph({
-        Title = "Update Info",
+        Title = "Q群/1055870765",
         Callback = function()
             local UpdatedResponse = game:GetService("HttpService"):JSONDecode(WindUI.Creator.Request({
                 Url = DiscordAPI,
@@ -647,7 +647,7 @@ TabHandles.QI:Divider()
 
 Section = TabHandles.QI:Section({ Title = "点击加载" })
 
-Button = TabHandles.:Button({
+Button = TabHandles.QI:Button({
     Title = "【战争大享】",
     Desc = "",
     Locked = false,
@@ -707,7 +707,7 @@ TabHandles.QI:Divider()
 
 Section = TabHandles.QI:Section({ Title = "点击加载" })
 
-Button = TabHandles.:Button({
+Button = TabHandles.QI:Button({
     Title = "【极速传奇】",
     Desc = "",
     Locked = false,
