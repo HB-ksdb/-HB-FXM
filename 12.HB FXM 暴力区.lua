@@ -1115,9 +1115,9 @@ local Tabs = {
 local TabHandles = {
     Q = Tabs.Main:Tab({ Title = "透视/杀手", Icon = "cctv" }),
     W = Tabs.Main:Tab({ Title = "自动功能", Icon = "swords" }),
-    E = Tabs.gn:Tab({ Title = "杀手力量", Icon = "sword" }),
-    R = Tabs.gn:Tab({ Title = "传送/瞬移", Icon = "layout-grid" }),
-    T = Tabs.gn:Tab({ Title = "设置", Icon = "bolt" }),
+    E = Tabs.Main:Tab({ Title = "杀手力量", Icon = "sword" }),
+    R = Tabs.Main:Tab({ Title = "传送/瞬移", Icon = "layout-grid" }),
+    T = Tabs.Main:Tab({ Title = "设置", Icon = "bolt" }),
 }
 
 
@@ -1340,62 +1340,6 @@ Toggle = TabHandles.W:Toggle({
  end
 })
 
-Dropdown = TabHandles.W:Dropdown({
-    Title = "发电机模式", 
-    Values = {"最大（快）”、“正常（慢）}, 
-    Value = "请选择", 
-    Callback = function(Option) 
-        if Option == "Great (Fast)" then
-            Config.AutoFeatures.GeneratorMode = "great"
-        else
-            Config.AutoFeatures.GeneratorMode = "normal"
-        end
-end
-})
-
-Section = TabHandles.W:Section({ Title = "快速逃生" })
-
-Toggle = TabHandles.W:Toggle({
-    Title = "启用快速休假生成器",
-    Desc = "",
-    Locked = false,
-    Callback = function(Value)
-        Config.AutoFeatures.AutoLeaveGenerator = Value
-        if Value then
-            startAutoLeaveGenerator()
-        else
-            stopAutoLeaveGenerator()
-        end
- end
-})
-
-Dropdown = TabHandles.W:Dropdown({
-    Title = "离开生成器钥匙绑定", 
-    Values = {"Q", "E", "F", "G", "X", "Z", "V", "B"}, 
-    Value = "请选择", 
-    Callback = function(Option) 
-            local keyMap = {
-                ["Q"] = Enum.KeyCode.Q,
-                ["E"] = Enum.KeyCode.E,
-                ["F"] = Enum.KeyCode.F,
-                ["G"] = Enum.KeyCode.G,
-                ["X"] = Enum.KeyCode.X,
-                ["Z"] = Enum.KeyCode.Z,
-                ["V"] = Enum.KeyCode.V,
-                ["B"] = Enum.KeyCode.B
-            }
-            
-            Config.AutoFeatures.LeaveKeybind = keyMap[Option]
-            
-            if Config.AutoFeatures.AutoLeaveGenerator then
-                stopAutoLeaveGenerator()
-                startAutoLeaveGenerator()
-            end
-            
-            notify("Keybind Changed", "Leave generator key set to: " .. Option, 2)
-        end
-end
-})
 
 Slider = TabHandles.W:Slider({
     Title = "检测范围（螺栓）",
@@ -1427,9 +1371,9 @@ WindUI:Notify({
  end
 })
 
-Section = TabHandles.QI:Section({ Title = "手动动作" })
+Section = TabHandles.W:Section({ Title = "手动动作" })
 
-Button = TabHandles.:Button({
+Button = TabHandles.W:Button({
     Title = "完成所有发电机（即时）",
     Desc = "",
     Locked = false,
