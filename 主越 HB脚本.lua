@@ -139,15 +139,15 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
         WindUI:Popup({
             Title = "👑尊贵的"..game.Players.LocalPlayer.DisplayName.."用户",
             Icon = "info",
-            Content = "欢迎使用HB FXM脚本",
+            Content = "欢迎使用HB FXM脚本/Welcome to HB FXM scripts",
             Buttons = {
                 {
-                    Title = "取消",
+                    Title = "cancel",
                     Callback = function() end,
                     Variant = "Tertiary",
                 },
                 {
-                    Title = "执行",
+                    Title = "implementation",
                     Icon = "arrow-right",
                     Callback = function() 
                         DDZX = true 
@@ -233,8 +233,8 @@ Window:Tag({
 
 WindUI:Notify({
     Title = "HB FXM ",
-    Content = "加载成功请放心使用",
-    Duration = 3, -- 3 seconds
+    Content = "加载成功请放心使用/Please feel free to use it successfully loaded",
+    Duration = 10, -- 3 seconds
     Icon = "bird",
 })
 
@@ -749,7 +749,7 @@ TabHandles.QI:Divider()
 
 -- ================ 更改跳跃 ================
 Slider = TabHandles.YI:Slider({
-    Title = "跳跃",
+    Title = "跳跃 / jump",
     Value = {
         Min = 50,
         Max = 200,
@@ -764,7 +764,7 @@ Slider = TabHandles.YI:Slider({
 })
 -- ================ 更改速度 ================
 Slider = TabHandles.YI:Slider({
-    Title = "速度",
+    Title = "速度 / speed",
     Value = {
         Min = 16,
         Max = 400,
@@ -779,7 +779,7 @@ Slider = TabHandles.YI:Slider({
 })
 -- ================ 更改重量 ================
 Slider = TabHandles.YI:Slider({
-    Title = "重量",
+    Title = "重量 / weight",
     Value = {
         Min = 0.1,
         Max = 500.0,
@@ -792,10 +792,10 @@ Slider = TabHandles.YI:Slider({
 })
 
 Slider = TabHandles.YI:Slider({
-    Title = "视野(正常70)",
+    Title = "视野(正常70) / Visual field (normal 70)",
     Value = {
         Min = 70,
-        Max = 250,
+        Max = 120,
         Default = 70,
     },
     Increment = 1,
@@ -807,10 +807,66 @@ TabHandles.YI:Divider()
 
 -- ================ 通用下 ================
 
+local Toggle = TabHandles.Q:Toggle({
+    Title = "穿墙/through-wall",
+    Desc = "点击就可以穿墙/Click through the wall",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(Value) 
+                    if Value then
+                Noclip = true
+                Stepped = game:GetService("RunService").Stepped:Connect(function()
+                    if Noclip == true then
+                        for a, b in pairs(game:GetService("Workspace"):GetChildren()) do
+                            if b.Name == game.Players.LocalPlayer.Name then
+                                for i, v in pairs(game:GetService("Workspace")[game.Players.LocalPlayer.Name]:GetChildren()) do
+                                    if v:IsA("BasePart") then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        Stepped:Disconnect()
+                    end
+                end)
+                Notification:Notify(
+                    {Title = "穿墙模式", Description = "穿墙模式已启用"},
+                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
+                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
+                )
+            else
+                Noclip = false
+                if Stepped then
+                    Stepped:Disconnect()
+                end
+                Notification:Notify(
+                    {Title = "穿墙模式", Description = "穿墙模式已禁用"},
+                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
+                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
+                )
+            end
+    end
+})        
+
+local Toggle = TabHandles.Q:Toggle({
+    Title = "夜视仪 / night vision device",
+    Desc = "能看到更清楚，黑夜再在 / Can see more clearly, open again at night",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(Value) 
+            if Value then
+      game.Lighting.Ambient = Color3.new(1, 1, 1)
+     else
+      game.Lighting.Ambient = Color3.new(0, 0, 0)
+    end
+})        
 
 Button = TabHandles.YI:Button({
-    Title = "偷别人的道具",
-    Desc = "偷背包里的东西",
+    Title = "偷别人的道具 / Stealing someone else's props",
+    Desc = "偷背包里的东西 / Stealing things from a backpack",
     Locked = false,
     Callback = function()
 -- ================ 偷道具 ================
@@ -823,7 +879,7 @@ end
             
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "偷到成功/Stealing success",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })                        
@@ -835,8 +891,8 @@ WindUI:Notify({
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 -- ================ HB FXM  ================
 Button =TabHandles.YI:Button({
-    Title = "飞行v1",
-    Desc = "HB FXM飞行",
+    Title = "飞行v1/Flight v1",
+    Desc = "HB FXM飞行/HB FXM Flight",
     Locked = false,
     Callback = function()
         local main = Instance.new("ScreenGui")
@@ -1329,83 +1385,24 @@ TabHandles.YI:Divider()
 
 
 
--- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
--- ================ 点击加载 ================
-Toggle = TabHandles.YI:Toggle({
-    Title = "夜视仪",
-    Desc = "能看到更清楚",
-    Locked = false,
-    Callback = function(Value)
-    if Value then
-      game.Lighting.Ambient = Color3.new(1, 1, 1)
-     else
-      game.Lighting.Ambient = Color3.new(0, 0, 0)
-    end
-WindUI:Notify({
-            Title = "夜视仪脚本中心：",
-            Content = state and "已开启夜视仪" or "已关闭夜视仪",
-            Icon = state and "check" or "x",
-            IconThemed = true, -- automatic color icon to theme 
-            Duration = 5,
-        })
- end
-})
+
 -- ================ 🤫🤫🤫 ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
 -- =  =
-Toggle = TabHandles.YI:Toggle({
-    Title = "穿墙",
-    Desc = "点击加载",
-    Locked = false,
-    Callback = function(Value)
-            if Value then
-                Noclip = true
-                Stepped = game:GetService("RunService").Stepped:Connect(function()
-                    if Noclip == true then
-                        for a, b in pairs(game:GetService("Workspace"):GetChildren()) do
-                            if b.Name == game.Players.LocalPlayer.Name then
-                                for i, v in pairs(game:GetService("Workspace")[game.Players.LocalPlayer.Name]:GetChildren()) do
-                                    if v:IsA("BasePart") then
-                                        v.CanCollide = false
-                                    end
-                                end
-                            end
-                        end
-                    else
-                        Stepped:Disconnect()
-                    end
-                end)
-                Notification:Notify(
-                    {Title = "穿墙模式", Description = "穿墙模式已启用"},
-                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
-                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
-                )
-            else
-                Noclip = false
-                if Stepped then
-                    Stepped:Disconnect()
-                end
-                Notification:Notify(
-                    {Title = "穿墙模式", Description = "穿墙模式已禁用"},
-                    {OutlineColor = Color3.fromRGB(0, 100, 200),Time = 3, Type = "image"},
-                    {Image = "http://www.roblox.com/asset/?id=6023426923", ImageColor = Color3.fromRGB(0, 150, 255)}
-                )
-            end
-        end
-    })
+
 -- =  =
 -- ================  ================
 
 Button = TabHandles.YI:Button({
-    Title = "无限跳",
-    Desc = "点击加载",
+    Title = "无限跳/Infinite jump",
+    Desc = "点击加载/click to load",
     Locked = false,
     Callback = function()
 loadstring(game:HttpGet("https://pastebin.com/raw/V5PQy3y0", true))()
             
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "已开启无限跳，开启后无法关闭功能/Infinite skipping has been turned on, and the function cannot be turned off after it is turned on",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })                        
@@ -1424,15 +1421,15 @@ WindUI:Notify({
 
 -- ================  ================
 Button = TabHandles.YI:Button({
-    Title = "指令挂(英文)",
-    Desc = "点击加载",
+    Title = "指令挂(英文)/Order hanging (English)",
+    Desc = "点击加载/click to load",
     Locked = false,
     Callback = function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
             
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "开启成功，无法关闭/Open successfully, cannot close",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })                        
@@ -1440,35 +1437,18 @@ WindUI:Notify({
  end
 })
 -- ================  ================
--- =  =
+-- = 
 
 Button = TabHandles.YI:Button({
-    Title = "甩飞所有人",
-    Desc = "78",
-    Locked = false,
-    Callback = function()
-        loadstring(game:HttpGet("https://pastebin.com/raw/GnvPVBEi"))()
-            
-WindUI:Notify({
-    Title = "通知",
-    Content = "加载成功",
-    Duration = 1, -- 3 seconds
-    Icon = "layout-grid",
-})                        
-            
- end
-})
-
-Button = TabHandles.YI:Button({
-    Title = "断腿+无头",
-    Desc = "",
+    Title = "断腿+无头/Broken leg + headless",
+    Desc = "启动无法关闭",
     Locked = false,
     Callback = function()
 loadstring(game:HttpGet(" https://rawscripts.net/raw/Universal-Script-Permanent-Headless-And-korblox-Script-4140",true))()
             
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "断腿+无头开启成功，无法关闭/Broken leg + headless opened successfully, unable to close",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })                        
@@ -1478,27 +1458,20 @@ WindUI:Notify({
 
 -- =  =
 -- ================  ================-- =  =
-Button = TabHandles.YI:Button({
-    Title = "点击传送工具",
-    Desc = "点击加载",
-    Locked = false,
-    Callback = function()
-      mouse = game.Players.LocalPlayer:GetMouse() tool = Instance.new("Tool") tool.RequiresHandle = false tool.Name = "HB FXM 点击传送" tool.Activated:connect(function() local pos = mouse.Hit+Vector3.new(0,2.5,0) pos = CFrame.new(pos.X,pos.Y,pos.Z) game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos end) tool.Parent = game.Players.LocalPlayer.Backpack
-            
-WindUI:Notify({
-    Title = "通知",
-    Content = "加载成功",
-    Duration = 1, -- 3 seconds
-    Icon = "layout-grid",
-})                        
-            
- end
-})
+
+
+
+
+
+
+
+
+
 -- ================  ================-- =  =
 -- =  =
 Button = TabHandles.YI:Button({
-    Title = "防甩飞",
-    Desc = "别人想甩飞你是不可能的",
+    Title = "防甩飞/anti-throwing",
+    Desc = "别人想甩飞你是不可能的/It's impossible for others to dump you",
     Locked = false,
     Callback = function()
         local Services = setmetatable({}, {__index = function(Self, Index)
@@ -1563,7 +1536,7 @@ Services.Players.PlayerAdded:Connect(PlayerAdded)
 
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "防甩启动成功，无法关闭/Anti-swing activated successfully and cannot be turned off",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })
@@ -1577,7 +1550,7 @@ WindUI:Notify({
 -- ================  ================
 -- =  =
 Button = TabHandles.YI:Button({
-    Title = "撸关R15",
+    Title = "撸关R15/Luguan R15🥵",
     Desc = "R15",
     Locked = false,
     Callback = function()
@@ -1585,7 +1558,7 @@ Button = TabHandles.YI:Button({
         
     WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "加载成功/loaded successfully",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })
@@ -1596,7 +1569,7 @@ Button = TabHandles.YI:Button({
 -- ================  ================
 
 Button = TabHandles.YI:Button({
-    Title = "撸关R6",
+    Title = "撸关R6/Luguan R6🥵",
     Desc = "R6",
     Locked = false,
     Callback = function()
@@ -1604,7 +1577,7 @@ Button = TabHandles.YI:Button({
 
     WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "加载成功/loaded successfully",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })
@@ -1625,15 +1598,15 @@ Button = TabHandles.YI:Button({
 
 -- ================  ================
 Button = TabHandles.YI:Button({
-    Title = "爬墙",
-    Desc = "怎么都可以爬墙",
+    Title = "爬墙/climb the wall",
+    Desc = "什么都可以爬墙/You can climb anything",
     Locked = false,
     Callback = function()
         loadstring(game:HttpGet("https://pastebin.com/raw/zXk4Rq2r"))()
         
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "加载成功/loaded successfully",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })        
@@ -1644,15 +1617,15 @@ WindUI:Notify({
 
 -- ================  ================
 Button = TabHandles.YI:Button({
-    Title = "动作",
-    Desc = "支持R15体型",
+    Title = "动作/action",
+    Desc = "支持R15体型/Supports R15 body size",
     Locked = false,
     Callback = function()
        loadstring(game:HttpGet("https://pastebin.com/raw/Zj4NnKs6"))()
 
 WindUI:Notify({
     Title = "通知",
-    Content = "加载成功",
+    Content = "加载成功/loaded successfully",
     Duration = 1, -- 3 seconds
     Icon = "layout-grid",
 })       
@@ -1661,24 +1634,6 @@ WindUI:Notify({
 })
 -- ================  ================
 -- =  =-- =  =-- =  =-- =  =-- =  =-- =  =-- =  =
-Button = TabHandles.YI:Button({
-    Title = "飞车（BS）",
-    Desc = "飞飞飞",
-    Locked = false,
-    Callback = function()
-    
-loadstring(game:HttpGet("https://pastebin.com/raw/gNqZiexm"))()
-
-            
-WindUI:Notify({
-    Title = "通知",
-    Content = "加载成功",
-    Duration = 1, -- 3 seconds
-    Icon = "layout-grid",
-})                        
-            
- end
-})
 
 
 
